@@ -4,8 +4,11 @@ import logo from '../../../public/logo.svg'
 import iconBar from '../../../public/menu-icon-bar.svg'
 
 import { Binoculars, ChartLineUp, SignOut } from 'phosphor-react'
+import { useSession } from 'next-auth/react'
 
 export function Sidebar() {
+    const session = useSession()
+    const isSignedIn = session.status === 'authenticated'
     return (
         <Container>
             <Image src={logo} priority alt='Book verse logo' />
@@ -21,10 +24,17 @@ export function Sidebar() {
                     Explore
                 </Explore>
             </MenuOptions>
-            <LoginButton>
-                Login
-                <SignOut size={24} />
-            </LoginButton>
+            {isSignedIn ? (
+                <LoginButton>
+                    Sign Out
+                    <SignOut size={24} />
+                </LoginButton>
+            ) : (
+                <LoginButton>
+                    Sign In
+                    <SignOut size={24} />
+                </LoginButton>
+            )}
         </Container>
     )
 }
