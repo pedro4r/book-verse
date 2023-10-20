@@ -4,6 +4,11 @@ import googleIcon from '../../../public/logos_google-icon.png'
 import githubIcon from '../../../public/akar-icons_github-fill.png'
 import rocketLaunch from '../../../public/RocketLaunch.png'
 import { Container, ImageContainer, LoginContainer } from './styles'
+import { signIn } from 'next-auth/react'
+
+async function handleConnectGoogle() {
+    await signIn('google')
+}
 
 export default function Home() {
     return (
@@ -18,7 +23,7 @@ export default function Home() {
                     <span>Sign up or access as guest</span>
                 </div>
 
-                <button>
+                <button onClick={handleConnectGoogle}>
                     <Image src={googleIcon} priority alt='Book verse logo' />
                     <strong>Sign up with Google</strong>
                 </button>

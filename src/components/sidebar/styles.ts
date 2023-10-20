@@ -2,17 +2,25 @@ import { styled } from '../../styles'
 import sidebarBackground from '../../../public/bg.png'
 
 export const Container = styled('aside', {
+    position: 'fixed',
+    top: 0,
+    left: 0,
     display: 'flex',
     flexDirection: 'column',
+
+    height: 'calc(100vh - 2.5rem)',
 
     alignItems: 'center',
     gap: '$10',
 
     padding: '$5',
+    margin: '$5',
+    borderRadius: '12px',
 
-    height: '100vh',
-    width: '100%',
-    background: `url(${sidebarBackground.src}) no-repeat center center`,
+    background: `url(${sidebarBackground.src})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundBlendMode: 'multiply',
 })
 
 export const MenuOptions = styled('div', {
@@ -22,38 +30,24 @@ export const MenuOptions = styled('div', {
     flex: 1,
 })
 
-export const Home = styled('button', {
+const BaseButton = styled('button', {
     all: 'unset',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
-    gap: '$2',
+    gap: '$4',
 
     marginBottom: '$3',
-})
-export const Explore = styled('button', {
-    all: 'unset',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    gap: '$2',
-
-    marginBottom: '$3',
+    cursor: 'pointer',
 })
 
-export const LoginButton = styled('button', {
-    all: 'unset',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    gap: '$2',
+export const Home = styled(BaseButton, {})
 
-    marginBottom: '$3',
+export const Explore = styled(BaseButton, {})
 
-    marginTop: 'auto',
+export const LoginButton = styled(BaseButton, {
+    margin: 'auto $3',
 
     svg: {
         color: '$green100',
