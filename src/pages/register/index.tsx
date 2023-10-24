@@ -4,13 +4,16 @@ import googleIcon from '../../../public/logos_google-icon.png'
 import githubIcon from '../../../public/akar-icons_github-fill.png'
 import rocketLaunch from '../../../public/RocketLaunch.png'
 import { Container, ImageContainer, LoginContainer } from './styles'
-import { signIn } from 'next-auth/react'
-
-async function handleConnectGoogle() {
-    await signIn('google')
-}
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Home() {
+    const session = useSession()
+    async function handleConnectGoogle() {
+        if (session.status !== 'unauthenticated') {
+            await signOut()
+        }
+        await signIn('google', { callbackUrl: '/home' })
+    }
     return (
         <Container>
             <ImageContainer>

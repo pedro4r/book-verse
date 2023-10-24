@@ -20,7 +20,7 @@ import Image from 'next/image'
 import avatar from '../../../public/avatar.jpeg'
 import hobbit from '../../../public/hobbit.png'
 
-export default function home() {
+export default function Home() {
     return (
         <Container>
             <Sidebar />

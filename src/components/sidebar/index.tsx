@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react'
 
 export function Sidebar() {
     const session = useSession()
+    console.log(session)
     const isSignedIn = session.status === 'authenticated'
     return (
         <Container>
@@ -25,12 +26,12 @@ export function Sidebar() {
                 </Explore>
             </MenuOptions>
             {isSignedIn ? (
-                <LoginButton>
+                <LoginButton color='red'>
                     Sign Out
                     <SignOut size={24} />
                 </LoginButton>
             ) : (
-                <LoginButton>
+                <LoginButton color='green'>
                     Sign In
                     <SignOut size={24} />
                 </LoginButton>

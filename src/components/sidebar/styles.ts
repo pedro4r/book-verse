@@ -49,7 +49,14 @@ export const Explore = styled(BaseButton, {})
 export const LoginButton = styled(BaseButton, {
     margin: 'auto $3',
 
-    svg: {
-        color: '$green100',
+    variants: {
+        color: {
+            green: {
+                svg: { color: '$green100' },
+            },
+            red: {
+                svg: { color: '$red' },
+            },
+        },
     },
 })
