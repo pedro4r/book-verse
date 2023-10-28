@@ -5,9 +5,11 @@ import githubIcon from '../../../public/akar-icons_github-fill.png'
 import rocketLaunch from '../../../public/RocketLaunch.png'
 import { Container, ImageContainer, LoginContainer } from './styles'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
-export default function Home() {
+export default function Register() {
     const session = useSession()
+    const router = useRouter()
     async function handleConnectGoogle() {
         if (session.status !== 'unauthenticated') {
             await signOut()

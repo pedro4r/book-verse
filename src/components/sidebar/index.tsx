@@ -1,33 +1,70 @@
 import Image from 'next/image'
-import { Container, Explore, Home, LoginButton, MenuOptions } from './styles'
+import { Container, LoginButton, MenuButton, MenuOptions } from './styles'
 import logo from '../../../public/logo.svg'
 import iconBar from '../../../public/menu-icon-bar.svg'
 
-import { Binoculars, ChartLineUp, SignOut } from 'phosphor-react'
+import { Binoculars, ChartLineUp, SignOut, User } from 'phosphor-react'
 import { useSession } from 'next-auth/react'
+import { Avatar } from '../Avatar'
+import { useRouter } from 'next/router'
 
 export function Sidebar() {
     const session = useSession()
-    console.log(session)
+    const router = useRouter()
+
     const isSignedIn = session.status === 'authenticated'
+
+    async function handleHome() {
+        await router.push('/home')
+    }
+
+    async function handleExplore() {
+        await router.push('/explore')
+    }
+
+    async function handleProfile() {
+        await router.push('/profile')
+    }
+
     return (
         <Container>
             <Image src={logo} priority alt='Book verse logo' />
             <MenuOptions>
-                <Home>
+                <MenuButton
+                    onClick={handleHome}
+                    selector={router.asPath === '/home'}
+                >
                     <Image src={iconBar} priority alt='' />
                     <ChartLineUp size={24} />
                     Home
-                </Home>
-                <Explore>
+                </MenuButton>
+
+                <MenuButton
+                    onClick={handleExplore}
+                    selector={router.asPath === '/explore'}
+                >
                     <Image src={iconBar} priority alt='' />
                     <Binoculars size={24} />
                     Explore
-                </Explore>
+                </MenuButton>
+
+                {isSignedIn ? (
+                    <MenuButton
+                        onClick={handleProfile}
+                        selector={router.asPath === '/profile'}
+                    >
+                        <Image src={iconBar} priority alt='' />
+                        <User size={24} />
+                        Profile
+                    </MenuButton>
+                ) : (
+                    <></>
+                )}
             </MenuOptions>
             {isSignedIn ? (
                 <LoginButton color='red'>
-                    Sign Out
+                    <Avatar />
+                    <span>Pedro</span>
                     <SignOut size={24} />
                 </LoginButton>
             ) : (

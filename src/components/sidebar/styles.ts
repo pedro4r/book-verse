@@ -27,6 +27,7 @@ export const MenuOptions = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+    gap: '$4',
     flex: 1,
 })
 
@@ -40,11 +41,25 @@ const BaseButton = styled('button', {
 
     marginBottom: '$3',
     cursor: 'pointer',
+
+    '&:hover': {
+        color: '$purple100',
+    },
 })
 
-export const Home = styled(BaseButton, {})
-
-export const Explore = styled(BaseButton, {})
+export const MenuButton = styled(BaseButton, {
+    variants: {
+        selector: {
+            true: {
+                color: '$gray100',
+            },
+            false: {
+                color: '$gray400',
+                img: { visibility: 'hidden' },
+            },
+        },
+    },
+})
 
 export const LoginButton = styled(BaseButton, {
     margin: 'auto $3',

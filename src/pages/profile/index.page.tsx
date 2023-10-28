@@ -21,7 +21,7 @@ import { Avatar } from '../../components/Avatar'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-export default function Home() {
+export default function Profile() {
     const router = useRouter()
     useEffect(() => {
         if (router.asPath.includes('#')) {
