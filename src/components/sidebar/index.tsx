@@ -12,6 +12,11 @@ export function Sidebar() {
     const session = useSession()
     const router = useRouter()
 
+    let userName = session.data?.user?.name
+    if (userName && userName.length > 6) {
+        userName = userName?.slice(0, 5) + '...'
+    }
+
     const isSignedIn = session.status === 'authenticated'
 
     async function handleHome() {
@@ -63,8 +68,8 @@ export function Sidebar() {
             </MenuOptions>
             {isSignedIn ? (
                 <LoginButton color='red'>
-                    <Avatar />
-                    <span>Pedro</span>
+                    <Avatar avatarSize={'sm'} />
+                    <span>{userName}</span>
                     <SignOut size={24} />
                 </LoginButton>
             ) : (

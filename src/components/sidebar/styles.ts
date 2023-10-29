@@ -9,11 +9,13 @@ export const Container = styled('aside', {
     flexDirection: 'column',
 
     height: 'calc(100vh - 2.5rem)',
+    width: '232px',
 
     alignItems: 'center',
     gap: '$10',
 
-    padding: '$5',
+    paddingTop: '$10',
+    paddingBottom: '$6',
     margin: '$5',
     borderRadius: '12px',
 

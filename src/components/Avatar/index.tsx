@@ -1,14 +1,20 @@
 import Image from 'next/image'
-import avatar from '../../../public/avatar.jpeg'
 import { AvatarContainer } from './styles'
 import { useSession } from 'next-auth/react'
+import { UserCircle } from 'phosphor-react'
 
-export function Avatar() {
+interface AvatarProps {
+    avatarSize?: 'md' | 'sm'
+}
+
+export function Avatar({ avatarSize = 'md' }: AvatarProps) {
     const session = useSession()
     if (session.data) {
-        // const avatarUrl = session.data?.user.avatar_url
         return (
-            <AvatarContainer>
+            <AvatarContainer
+                avatarMode={'withAvatar'}
+                sizeOfAvatar={avatarSize}
+            >
                 <Image
                     src={session.data?.user?.avatar_url ?? ''}
                     priority
@@ -16,6 +22,15 @@ export function Avatar() {
                     height={32}
                     width={32}
                 />
+            </AvatarContainer>
+        )
+    } else {
+        return (
+            <AvatarContainer
+                avatarMode={'withoutAvatar'}
+                sizeOfAvatar={avatarSize}
+            >
+                <UserCircle size={28} weight='light' />
             </AvatarContainer>
         )
     }

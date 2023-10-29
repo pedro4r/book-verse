@@ -12,7 +12,6 @@ import {
     PopularBookInfo,
     PopularBooks,
     Reviews,
-    StarRater,
     TitleContainer,
 } from './styles'
 import Image from 'next/image'
@@ -20,6 +19,7 @@ import hobbit from '../../../public/hobbit.png'
 import { Avatar } from '../../components/Avatar'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { StarRater } from '../../components/StarRater'
 
 export default function Home() {
     const router = useRouter()
@@ -46,13 +46,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -79,13 +73,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -112,13 +100,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -145,13 +127,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -178,13 +154,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -211,13 +181,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -244,13 +208,7 @@ export default function Home() {
                             <strong>Pedro Requião</strong>
                             <span>Data</span>
                         </InfoContainer>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </Header>
                     <Body>
                         <Image src={hobbit} priority alt='' />
@@ -281,13 +239,7 @@ export default function Home() {
                     <PopularBookInfo>
                         <strong>The Hobbit</strong>
                         <span>J.R.R. Tolkien</span>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </PopularBookInfo>
                 </Book>
                 <Book>
@@ -295,13 +247,7 @@ export default function Home() {
                     <PopularBookInfo>
                         <strong>The Hobbit</strong>
                         <span>J.R.R. Tolkien</span>
-                        <StarRater>
-                            <Star weight='fill' size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                            <Star size={14} />
-                        </StarRater>
+                        <StarRater />
                     </PopularBookInfo>
                 </Book>
             </PopularBooks>

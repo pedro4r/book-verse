@@ -2,11 +2,13 @@ import { styled } from '../../styles'
 
 export const Container = styled('main', {
     display: 'grid',
-    gridTemplateColumns: '5fr 2fr',
+    gridTemplateColumns: '6fr 3fr',
     gap: '4rem',
     height: '100vh',
 
-    padding: '6rem',
+    margin: '6rem',
+
+    paddingLeft: '232px',
 
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -16,8 +18,6 @@ export const Feed = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-
-    paddingLeft: '10rem',
 
     overflow: 'auto',
 
@@ -67,6 +67,7 @@ export const InfoContainer = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     gap: '$1',
+    flex: 1,
 
     strong: {
         fontSize: '$sm',
@@ -75,18 +76,6 @@ export const InfoContainer = styled('div', {
     span: {
         fontSize: '$sm',
         color: '$gray400',
-    },
-})
-
-export const StarRater = styled('div', {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '$2',
-    marginLeft: 'auto',
-    marginTop: 'auto',
-
-    svg: {
-        color: '$purple100',
     },
 })
 
