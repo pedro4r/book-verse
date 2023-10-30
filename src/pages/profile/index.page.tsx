@@ -2,9 +2,7 @@ import {
     BookOpen,
     BookmarkSimple,
     Books,
-    ChartLineUp,
     MagnifyingGlass,
-    Star,
     User,
     UserList,
 } from 'phosphor-react'
@@ -55,6 +53,32 @@ export default function Profile() {
                     <MagnifyingGlass size={20} />
                 </FormContainer>
 
+                <ReviewContainer>
+                    <span>2 days ago</span>
+                    <ReviewBody>
+                        <Header>
+                            <Image src={hobbit} alt='' />
+                            <TitleInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <StarRater />
+                            </TitleInfo>
+                        </Header>
+                        <p>
+                            Tristique massa sed enim lacinia odio. Congue ut
+                            faucibus nunc vitae non. Nam feugiat vel morbi
+                            viverra vitae mi. Vitae fringilla ut et suspendisse
+                            enim suspendisse vitae. Leo non eget lacus
+                            sollicitudin tristique pretium quam. Mollis et
+                            luctus amet sed convallis varius massa sagittis.
+                            Proin sed proin at leo quis ac sem. Nam donec
+                            accumsan curabitur amet tortor quam sit. Bibendum
+                            enim sit dui lorem urna amet elit rhoncus ut.
+                            Aliquet euismod vitae ut turpis. Aliquam amet
+                            integer pellentesque.
+                        </p>
+                    </ReviewBody>
+                </ReviewContainer>
                 <ReviewContainer>
                     <span>2 days ago</span>
                     <ReviewBody>
