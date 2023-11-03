@@ -54,6 +54,8 @@ export const {
             white: '#FFFFFF',
             black: '#000000',
 
+            blackTransparent: 'rgba(0, 0, 0, 0.6)',
+
             red: '#F75A68',
 
             green100: '#50B2C0',

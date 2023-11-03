@@ -33,13 +33,13 @@ export function Sidebar() {
 
     return (
         <Container>
-            <Image src={logo} priority alt='Book verse logo' />
+            <Image src={logo} alt='Book verse logo' />
             <MenuOptions>
                 <MenuButton
                     onClick={handleHome}
                     selector={router.asPath === '/home'}
                 >
-                    <Image src={iconBar} priority alt='' />
+                    <Image src={iconBar} alt='' />
                     <ChartLineUp size={24} />
                     Home
                 </MenuButton>
@@ -48,7 +48,7 @@ export function Sidebar() {
                     onClick={handleExplore}
                     selector={router.asPath === '/explore'}
                 >
-                    <Image src={iconBar} priority alt='' />
+                    <Image src={iconBar} alt='' />
                     <Binoculars size={24} />
                     Explore
                 </MenuButton>
@@ -58,7 +58,7 @@ export function Sidebar() {
                         onClick={handleProfile}
                         selector={router.asPath === '/profile'}
                     >
-                        <Image src={iconBar} priority alt='' />
+                        <Image src={iconBar} alt='' />
                         <User size={24} />
                         Profile
                     </MenuButton>

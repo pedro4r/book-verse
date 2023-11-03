@@ -17,7 +17,6 @@ export function Avatar({ avatarSize = 'md' }: AvatarProps) {
             >
                 <Image
                     src={session.data?.user?.avatar_url ?? ''}
-                    priority
                     alt={session.data?.user.name}
                     height={32}
                     width={32}
