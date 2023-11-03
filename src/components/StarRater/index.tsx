@@ -2,11 +2,12 @@ import { Star } from 'phosphor-react'
 import { Container, StarButton } from './styles'
 import { useState } from 'react'
 
-interface StarRaterSize {
+interface StarRating {
     size?: 'sm' | 'md'
+    enableChange?: boolean
 }
 
-export function StarRater({ size = 'sm' }: StarRaterSize) {
+export function StarRater({ size = 'sm', enableChange = false }: StarRating) {
     const [starRateCount, setStarRateCount] = useState<number>(1)
     const [isStarRatingEnable, setIsStarRatingEnable] = useState<boolean>(true)
 
@@ -23,36 +24,20 @@ export function StarRater({ size = 'sm' }: StarRaterSize) {
 
     return (
         <Container size={size}>
-            <StarButton
-                onClick={() => handleStarRatingEnable(1)}
-                onMouseOver={() => handleOnMouseOver(1)}
-            >
-                <Star weight={starRateCount >= 1 ? 'fill' : 'thin'} />
-            </StarButton>
-            <StarButton
-                onClick={() => handleStarRatingEnable(2)}
-                onMouseOver={() => handleOnMouseOver(2)}
-            >
-                <Star weight={starRateCount >= 2 ? 'fill' : 'thin'} />
-            </StarButton>
-            <StarButton
-                onClick={() => handleStarRatingEnable(3)}
-                onMouseOver={() => handleOnMouseOver(3)}
-            >
-                <Star weight={starRateCount >= 3 ? 'fill' : 'thin'} />
-            </StarButton>
-            <StarButton
-                onClick={() => handleStarRatingEnable(4)}
-                onMouseOver={() => handleOnMouseOver(4)}
-            >
-                <Star weight={starRateCount >= 4 ? 'fill' : 'thin'} />
-            </StarButton>
-            <StarButton
-                onClick={() => handleStarRatingEnable(5)}
-                onMouseOver={() => handleOnMouseOver(5)}
-            >
-                <Star weight={starRateCount === 5 ? 'fill' : 'thin'} />
-            </StarButton>
+            {Array.from(Array(4).keys()).map((star) => (
+                <StarButton
+                    key={star}
+                    ifEnableChange={enableChange}
+                    onClick={() =>
+                        enableChange ? handleStarRatingEnable(star) : ''
+                    }
+                    onMouseOver={() =>
+                        enableChange ? handleOnMouseOver(star) : ''
+                    }
+                >
+                    <Star weight={starRateCount >= star ? 'fill' : 'thin'} />
+                </StarButton>
+            ))}
         </Container>
     )
 }

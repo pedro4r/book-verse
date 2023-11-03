@@ -20,10 +20,6 @@ export const Container = styled('div', {
                 },
             },
         },
-        enable: {
-            true: {},
-            false: {},
-        },
     },
 })
 
@@ -35,7 +31,19 @@ export const StarButton = styled('button', {
         color: '$purple100',
     },
 
-    ':active': {
-        color: '$purple200',
+    variants: {
+        ifEnableChange: {
+            true: {
+                ':active': {
+                    color: '$purple200',
+                },
+
+                svg: {
+                    '&:hover': {
+                        color: '$gray300',
+                    },
+                },
+            },
+        },
     },
 })

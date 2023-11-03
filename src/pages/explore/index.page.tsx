@@ -131,7 +131,7 @@ export default function Explore() {
                         <NewReviewHeader>
                             <Avatar avatarSize='sm' />
                             <strong>{session.data?.user.name}</strong>
-                            <StarRater size={'md'} />
+                            <StarRater size={'md'} enableChange={true} />
                         </NewReviewHeader>
                         <ReviewFormContainer>
                             <TextAreaContainer>
