@@ -24,6 +24,7 @@
 import { globalStyles } from '../styles/global'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
+import { BookVerseContextProvider } from '../context/BookVerseContext'
 
 globalStyles()
 
@@ -33,7 +34,9 @@ export default function App({
 }: AppProps) {
     return (
         <SessionProvider session={session}>
-            <Component {...pageProps} />
+            <BookVerseContextProvider>
+                <Component {...pageProps} />
+            </BookVerseContextProvider>
         </SessionProvider>
     )
 }

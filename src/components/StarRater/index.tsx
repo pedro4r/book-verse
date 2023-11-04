@@ -8,7 +8,7 @@ interface StarRating {
 }
 
 export function StarRater({ size = 'sm', enableChange = false }: StarRating) {
-    const [starRateCount, setStarRateCount] = useState<number>(1)
+    const [starRateCount, setStarRateCount] = useState<number>(0)
     const [isStarRatingEnable, setIsStarRatingEnable] = useState<boolean>(true)
 
     function handleOnMouseOver(starNumber: number) {
@@ -24,7 +24,7 @@ export function StarRater({ size = 'sm', enableChange = false }: StarRating) {
 
     return (
         <Container size={size}>
-            {Array.from(Array(4).keys()).map((star) => (
+            {Array.from(Array(5).keys()).map((star) => (
                 <StarButton
                     key={star}
                     ifEnableChange={enableChange}

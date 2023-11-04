@@ -25,7 +25,6 @@ export const Container = styled('div', {
 
 export const StarButton = styled('button', {
     all: 'unset',
-    cursor: 'pointer',
 
     svg: {
         color: '$purple100',
@@ -34,6 +33,7 @@ export const StarButton = styled('button', {
     variants: {
         ifEnableChange: {
             true: {
+                cursor: 'pointer',
                 ':active': {
                     color: '$purple200',
                 },

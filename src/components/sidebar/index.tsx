@@ -4,7 +4,7 @@ import logo from '../../../public/logo.svg'
 import iconBar from '../../../public/menu-icon-bar.svg'
 
 import { Binoculars, ChartLineUp, SignOut, User } from 'phosphor-react'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { Avatar } from '../Avatar'
 import { useRouter } from 'next/router'
 
@@ -67,7 +67,7 @@ export function Sidebar() {
                 )}
             </MenuOptions>
             {isSignedIn ? (
-                <LoginButton color='red'>
+                <LoginButton onClick={() => signOut()} color='red'>
                     <Avatar avatarSize={'sm'} />
                     <span>{userName}</span>
                     <SignOut size={24} />
