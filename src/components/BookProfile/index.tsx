@@ -35,6 +35,8 @@ export function BookProfile() {
     const [isNewReviewContainerOpen, setIsNewReviewContainerOpen] =
         useState<boolean>(false)
 
+    const { changeSignInBoxOpenStatus } = useContext(BookVerseContext)
+
     function handleOnChangeNewReview(event: ChangeEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity('')
         setReviewTextAreaLength(event.target.value.length)
@@ -85,16 +87,17 @@ export function BookProfile() {
                 <ReviewContainer>
                     <span>
                         <span>Reviews</span>
-                        {session.data?.user ? (
-                            <NewReviewButton
-                                show={!isNewReviewContainerOpen}
-                                onClick={() =>
-                                    handleNewReviewContainerOpen(true)
-                                }
-                            >
-                                Rate this book
-                            </NewReviewButton>
-                        ) : null}
+
+                        <NewReviewButton
+                            show={!isNewReviewContainerOpen}
+                            onClick={() =>
+                                session.data?.user
+                                    ? handleNewReviewContainerOpen(true)
+                                    : changeSignInBoxOpenStatus(true)
+                            }
+                        >
+                            Rate this book
+                        </NewReviewButton>
                     </span>
                     <NewReview open={isNewReviewContainerOpen}>
                         <NewReviewHeader>

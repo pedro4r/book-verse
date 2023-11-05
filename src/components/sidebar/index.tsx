@@ -7,10 +7,14 @@ import { Binoculars, ChartLineUp, SignOut, User } from 'phosphor-react'
 import { useSession, signOut } from 'next-auth/react'
 import { Avatar } from '../Avatar'
 import { useRouter } from 'next/router'
+import { useContext } from 'react'
+import { BookVerseContext } from '../../context/BookVerseContext'
 
 export function Sidebar() {
     const session = useSession()
     const router = useRouter()
+
+    const { changeSignInBoxOpenStatus } = useContext(BookVerseContext)
 
     let userName = session.data?.user?.name
     if (userName && userName.length > 6) {
@@ -29,6 +33,14 @@ export function Sidebar() {
 
     async function handleProfile() {
         await router.push('/profile')
+    }
+
+    async function handleSignOut() {
+        if (router.pathname === '/profile') {
+            await router.push('/home').then(() => {
+                signOut()
+            })
+        }
     }
 
     return (
@@ -67,13 +79,16 @@ export function Sidebar() {
                 )}
             </MenuOptions>
             {isSignedIn ? (
-                <LoginButton onClick={() => signOut()} color='red'>
+                <LoginButton onClick={() => handleSignOut()} color='red'>
                     <Avatar avatarSize={'sm'} />
                     <span>{userName}</span>
                     <SignOut size={24} />
                 </LoginButton>
             ) : (
-                <LoginButton color='green'>
+                <LoginButton
+                    color='green'
+                    onClick={() => changeSignInBoxOpenStatus(true)}
+                >
                     Sign In
                     <SignOut size={24} />
                 </LoginButton>

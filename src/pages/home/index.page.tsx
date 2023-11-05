@@ -20,6 +20,7 @@ import { Avatar } from '../../components/Avatar'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { StarRater } from '../../components/StarRater'
+import { SignInBox } from '../../components/SignInBox'
 
 export default function Home() {
     const router = useRouter()
@@ -30,227 +31,236 @@ export default function Home() {
     }, [router])
 
     return (
-        <Container>
-            <Sidebar />
-            <Feed>
-                <PageTitle>
-                    <ChartLineUp size={32} />
-                    <h2>Home</h2>
-                </PageTitle>
+        <>
+            <Container>
+                <Sidebar />
+                <Feed>
+                    <PageTitle>
+                        <ChartLineUp size={32} />
+                        <h2>Home</h2>
+                    </PageTitle>
 
-                <span>Recent Reviews</span>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
+                    <span>Recent Reviews</span>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                    <Reviews>
+                        <Header>
+                            <Avatar />
+                            <InfoContainer>
+                                <strong>Pedro Requião</strong>
+                                <span>Data</span>
+                            </InfoContainer>
+                            <StarRater />
+                        </Header>
+                        <Body>
+                            <Image src={hobbit} priority alt='' />
+                            <BookInfo>
+                                <strong>The Hobbit</strong>
+                                <span>J.R.R. Tolkien</span>
+                                <p>
+                                    Semper et sapien proin vitae nisi. Feugiat
+                                    neque integer donec et aenean posuere amet
+                                    ultrices. Cras fermentum id pulvinar varius
+                                    leo a in. Amet libero pharetra nunc
+                                    elementum fringilla velit ipsum. Sed
+                                    vulputate massa velit nibh...{' '}
+                                    <a href='#' title=''>
+                                        read more
+                                    </a>
+                                </p>
+                            </BookInfo>
+                        </Body>
+                    </Reviews>
+                </Feed>
+                <PopularBooks>
+                    <TitleContainer>
+                        <span>Popular Books</span>
+                        <a href='http://'>See more</a>
+                    </TitleContainer>
+                    <Book>
                         <Image src={hobbit} priority alt='' />
-                        <BookInfo>
+                        <PopularBookInfo>
                             <strong>The Hobbit</strong>
                             <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
+                            <StarRater />
+                        </PopularBookInfo>
+                    </Book>
+                    <Book>
                         <Image src={hobbit} priority alt='' />
-                        <BookInfo>
+                        <PopularBookInfo>
                             <strong>The Hobbit</strong>
                             <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
-                        <Image src={hobbit} priority alt='' />
-                        <BookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
-                        <Image src={hobbit} priority alt='' />
-                        <BookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
-                        <Image src={hobbit} priority alt='' />
-                        <BookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
-                        <Image src={hobbit} priority alt='' />
-                        <BookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-                <Reviews>
-                    <Header>
-                        <Avatar />
-                        <InfoContainer>
-                            <strong>Pedro Requião</strong>
-                            <span>Data</span>
-                        </InfoContainer>
-                        <StarRater />
-                    </Header>
-                    <Body>
-                        <Image src={hobbit} priority alt='' />
-                        <BookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <p>
-                                Semper et sapien proin vitae nisi. Feugiat neque
-                                integer donec et aenean posuere amet ultrices.
-                                Cras fermentum id pulvinar varius leo a in. Amet
-                                libero pharetra nunc elementum fringilla velit
-                                ipsum. Sed vulputate massa velit nibh...{' '}
-                                <a href='#' title=''>
-                                    read more
-                                </a>
-                            </p>
-                        </BookInfo>
-                    </Body>
-                </Reviews>
-            </Feed>
-            <PopularBooks>
-                <TitleContainer>
-                    <span>Popular Books</span>
-                    <a href='http://'>See more</a>
-                </TitleContainer>
-                <Book>
-                    <Image src={hobbit} priority alt='' />
-                    <PopularBookInfo>
-                        <strong>The Hobbit</strong>
-                        <span>J.R.R. Tolkien</span>
-                        <StarRater />
-                    </PopularBookInfo>
-                </Book>
-                <Book>
-                    <Image src={hobbit} priority alt='' />
-                    <PopularBookInfo>
-                        <strong>The Hobbit</strong>
-                        <span>J.R.R. Tolkien</span>
-                        <StarRater />
-                    </PopularBookInfo>
-                </Book>
-            </PopularBooks>
-        </Container>
+                            <StarRater />
+                        </PopularBookInfo>
+                    </Book>
+                </PopularBooks>
+            </Container>
+        </>
     )
 }

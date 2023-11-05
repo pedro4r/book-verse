@@ -65,11 +65,19 @@ export const MenuButton = styled(BaseButton, {
 
 export const LoginButton = styled(BaseButton, {
     margin: 'auto $3',
+    '&:hover': {
+        color: '$gray400',
+        svg: {
+            color: '$green200',
+        },
+    },
 
     variants: {
         color: {
             green: {
-                svg: { color: '$green100' },
+                svg: {
+                    color: '$green100',
+                },
             },
             red: {
                 svg: { color: '$red' },
