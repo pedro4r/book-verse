@@ -30,6 +30,8 @@ import { BookVerseContext } from '../../context/BookVerseContext'
 export function BookProfile() {
     const session = useSession()
 
+    const [resetKey, setResetKey] = useState(0)
+
     const [reviewTextAreaLength, setReviewTextAreaLength] = useState<number>(0)
 
     const [isNewReviewContainerOpen, setIsNewReviewContainerOpen] =
@@ -44,6 +46,8 @@ export function BookProfile() {
 
     function handleNewReviewContainerOpen(status: boolean) {
         setIsNewReviewContainerOpen(status)
+        // Reset StarRating
+        setResetKey((prevKey) => prevKey + 1)
     }
 
     const { isBookContainerOpen, changeBookContainerOpenStatus } =
@@ -103,7 +107,11 @@ export function BookProfile() {
                         <NewReviewHeader>
                             <Avatar avatarSize='sm' />
                             <strong>{session.data?.user.name}</strong>
-                            <StarRater size={'md'} enableChange={true} />
+                            <StarRater
+                                key={resetKey}
+                                size={'md'}
+                                enableChange={true}
+                            />
                         </NewReviewHeader>
                         <ReviewFormContainer>
                             <TextAreaContainer>
