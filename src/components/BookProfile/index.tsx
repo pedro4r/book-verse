@@ -26,11 +26,12 @@ import { ChangeEvent, useContext, useState } from 'react'
 import hobbit from '../../../public/hobbit.png'
 import { useSession } from 'next-auth/react'
 import { BookVerseContext } from '../../context/BookVerseContext'
+import { v4 as uuidv4 } from 'uuid'
 
 export function BookProfile() {
     const session = useSession()
 
-    const [resetKey, setResetKey] = useState(0)
+    const [resetKey, setResetKey] = useState(uuidv4())
 
     const [reviewTextAreaLength, setReviewTextAreaLength] = useState<number>(0)
 
@@ -39,6 +40,9 @@ export function BookProfile() {
 
     const { changeSignInBoxOpenStatus } = useContext(BookVerseContext)
 
+    const { isBookContainerOpen, changeBookContainerOpenStatus } =
+        useContext(BookVerseContext)
+
     function handleOnChangeNewReview(event: ChangeEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity('')
         setReviewTextAreaLength(event.target.value.length)
@@ -46,19 +50,17 @@ export function BookProfile() {
 
     function handleNewReviewContainerOpen(status: boolean) {
         setIsNewReviewContainerOpen(status)
-        // Reset StarRating
-        setResetKey((prevKey) => prevKey + 1)
+        setResetKey(uuidv4())
     }
 
-    const { isBookContainerOpen, changeBookContainerOpenStatus } =
-        useContext(BookVerseContext)
+    function handleCloseBookProfile() {
+        changeBookContainerOpenStatus(false)
+    }
 
     return (
         <>
             <BookContainer open={isBookContainerOpen}>
-                <CloseButton
-                    onClick={() => changeBookContainerOpenStatus(false)}
-                >
+                <CloseButton onClick={() => handleCloseBookProfile()}>
                     <X size={24} weight='thin' />
                 </CloseButton>
                 <BookCard>
@@ -116,6 +118,7 @@ export function BookProfile() {
                         <ReviewFormContainer>
                             <TextAreaContainer>
                                 <textarea
+                                    key={resetKey}
                                     maxLength={450}
                                     onChange={handleOnChangeNewReview}
                                     placeholder='Share your thoughts and light the way for fellow readers!'
