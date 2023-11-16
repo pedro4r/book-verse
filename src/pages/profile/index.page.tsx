@@ -25,20 +25,44 @@ import {
 import Image from 'next/image'
 import hobbit from '../../../public/hobbit.png'
 import { Avatar } from '../../components/Avatar'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import horizontalBar from '../../../public/horizontal-icon-bar.svg'
 import { StarRater } from '../../components/StarRater'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+const searchFormSchema = z.object({
+    query: z.string(),
+})
+
+type SearchFormInput = z.infer<typeof searchFormSchema>
 
 export default function Profile() {
     const router = useRouter()
     const session = useSession()
+
+    const { register, handleSubmit } = useForm<SearchFormInput>({
+        resolver: zodResolver(searchFormSchema),
+        defaultValues: {
+            query: '',
+        },
+    })
+
     useEffect(() => {
         if (router.asPath.includes('#')) {
             router.replace(router.asPath.split('#')[0])
         }
     }, [router])
+
+    function handleSearch(data: SearchFormInput) {
+        const searchQuery = {
+            data: data.query,
+        }
+        console.log(searchQuery)
+    }
 
     return (
         <Container>
@@ -48,8 +72,14 @@ export default function Profile() {
                     <User size={32} />
                     <h2>Profile</h2>
                 </PageTitle>
-                <FormContainer>
-                    <input type='text' placeholder='Search Content' />
+                <FormContainer
+                    onSubmit={handleSubmit((data) => handleSearch(data))}
+                >
+                    <input
+                        type='text'
+                        placeholder='Search Content'
+                        {...register('query')}
+                    />
                     <MagnifyingGlass size={20} />
                 </FormContainer>
 
@@ -61,7 +91,7 @@ export default function Profile() {
                             <TitleInfo>
                                 <strong>The Hobbit</strong>
                                 <span>J.R.R. Tolkien</span>
-                                <StarRater />
+                                <StarRater rate={3} />
                             </TitleInfo>
                         </Header>
                         <p>
@@ -87,7 +117,7 @@ export default function Profile() {
                             <TitleInfo>
                                 <strong>The Hobbit</strong>
                                 <span>J.R.R. Tolkien</span>
-                                <StarRater />
+                                <StarRater rate={3} />
                             </TitleInfo>
                         </Header>
                         <p>

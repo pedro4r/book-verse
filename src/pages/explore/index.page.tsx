@@ -1,11 +1,4 @@
-import {
-    Binoculars,
-    BookOpen,
-    BookmarkSimple,
-    Check,
-    MagnifyingGlass,
-    X,
-} from 'phosphor-react'
+import { Binoculars, MagnifyingGlass } from 'phosphor-react'
 import { Sidebar } from '../../components/Sidebar'
 import {
     Book,
@@ -13,28 +6,53 @@ import {
     Container,
     ExploreContainer,
     FilterAnswer,
-    FilterBar,
-    FilterButton,
+    RadioGroupItem,
     FormContainer,
     InfoContainer,
+    Label,
     PageTitle,
+    RadioGroupRoot,
     ReadLabel,
 } from './styles'
 import Image from 'next/image'
 import hobbit from '../../../public/hobbit.png'
-import { Avatar } from '../../components/Avatar'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { StarRater } from '../../components/StarRater'
 import { BookProfile } from '../../components/BookProfile'
 import { BookVerseContext } from '../../context/BookVerseContext'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+const searchFormSchema = z.object({
+    query: z.string(),
+    gender: z.enum([
+        'all',
+        'computer',
+        'education',
+        'fantasy',
+        'scifi',
+        'horror',
+        'hqs',
+        'suspense',
+    ]),
+})
+
+type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export default function Explore() {
     const router = useRouter()
     const session = useSession()
 
-    const [filter, setFilter] = useState('all')
+    const { register, handleSubmit, control } = useForm<SearchFormInputs>({
+        resolver: zodResolver(searchFormSchema),
+        defaultValues: {
+            query: '',
+            gender: 'all',
+        },
+    })
 
     useEffect(() => {
         if (router.asPath.includes('#')) {
@@ -42,77 +60,86 @@ export default function Explore() {
         }
     }, [router])
 
-    function handleChangeFilter(filterName: string) {
-        setFilter(filterName)
+    const { changeBookContainerOpenStatus } = useContext(BookVerseContext)
+
+    function handleSearchByTextInput(data: SearchFormInputs) {
+        const searchFilterQuery = {
+            data: data.query,
+            gender: data.gender,
+        }
+        console.log(searchFilterQuery)
     }
 
-    const { isBookContainerOpen, changeBookContainerOpenStatus } =
-        useContext(BookVerseContext)
+    function handleSearchByFilter(event: ChangeEvent<HTMLInputElement>) {
+        event.target.setCustomValidity('')
+        console.log(event.target.value.length)
+    }
 
     return (
         <>
             <BookProfile />
             <Container>
                 <Sidebar />
-                <ExploreContainer>
+                <ExploreContainer
+                    onSubmit={handleSubmit((data) =>
+                        handleSearchByTextInput(data)
+                    )}
+                >
                     <PageTitle>
                         <Binoculars size={32} />
                         <h2>Explore</h2>
                         <FormContainer>
-                            <input type='text' placeholder='Search Content' />
+                            <input
+                                type='text'
+                                placeholder='Search Content'
+                                {...register('query')}
+                            />
                             <MagnifyingGlass size={20} />
                         </FormContainer>
                     </PageTitle>
-                    <FilterBar>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('all')}
-                            active={filter === 'all'}
-                        >
-                            All
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('computer')}
-                            active={filter === 'computer'}
-                        >
-                            Computer
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('education')}
-                            active={filter === 'education'}
-                        >
-                            Education
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('fansaty')}
-                            active={filter === 'fansaty'}
-                        >
-                            Fansaty
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('scifi')}
-                            active={filter === 'scifi'}
-                        >
-                            Sci-Fi
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('horror')}
-                            active={filter === 'horror'}
-                        >
-                            Horror
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('hqs')}
-                            active={filter === 'hqs'}
-                        >
-                            HQs
-                        </FilterButton>
-                        <FilterButton
-                            onClick={() => handleChangeFilter('suspense')}
-                            active={filter === 'suspense'}
-                        >
-                            Suspense
-                        </FilterButton>
-                    </FilterBar>
+                    <Controller
+                        name='gender'
+                        control={control}
+                        render={({ field: { onChange } }) => {
+                            return (
+                                <RadioGroupRoot
+                                    defaultValue='all'
+                                    aria-label='Gender'
+                                    onChange={(e) => {
+                                        onChange(e)
+                                        handleSearchByFilter(
+                                            e as ChangeEvent<HTMLInputElement>
+                                        )
+                                    }}
+                                >
+                                    <RadioGroupItem value='all' id='1'>
+                                        <Label htmlFor='1'>All</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='computer' id='2'>
+                                        <Label htmlFor='2'>Computer</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='education' id='3'>
+                                        <Label htmlFor='3'>Education</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='fantasy' id='4'>
+                                        <Label htmlFor='4'>Fantasy</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='scifi' id='5'>
+                                        <Label htmlFor='5'>Sci-Fi</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='horror' id='6'>
+                                        <Label htmlFor='6'>Horror</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='hqs' id='7'>
+                                        <Label htmlFor='7'>HQs</Label>
+                                    </RadioGroupItem>
+                                    <RadioGroupItem value='suspense' id='8'>
+                                        <Label htmlFor='8'>Suspense</Label>
+                                    </RadioGroupItem>
+                                </RadioGroupRoot>
+                            )
+                        }}
+                    />
                 </ExploreContainer>
                 <FilterAnswer>
                     <Book onClick={() => changeBookContainerOpenStatus(true)}>

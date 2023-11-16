@@ -138,14 +138,14 @@ export const TitleContainer = styled('div', {
     },
 })
 
-export const Book = styled('div', {
+export const Book = styled('button', {
+    all: 'unset',
     display: 'flex',
     flexDirection: 'row',
-
     gap: '$4',
 
     padding: '$5',
-    minHeight: '8rem',
+    // height: '8rem',
     marginTop: '$4',
 
     borderRadius: '8px',
@@ -160,28 +160,18 @@ export const Book = styled('div', {
 export const PopularBookInfo = styled('div', {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     height: 'auto',
 
     strong: {
         fontSize: '$xs',
         color: '$gray100',
+        alignSelf: 'flex-start',
     },
 
     span: {
         fontSize: '$sm',
         color: '$gray400',
-    },
-
-    p: {
-        fontSize: '$sm',
-        marginTop: 'auto',
-        color: '$gray300',
-
-        a: {
-            all: 'unset',
-            fontWeight: 'bold',
-            color: '$purple100',
-        },
+        flex: 1,
     },
 })

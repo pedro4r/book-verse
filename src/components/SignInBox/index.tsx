@@ -32,7 +32,7 @@ export function SignInBox() {
                         <strong>Sign up with Google</strong>
                     </button>
                     <button>
-                        <Image src={githubIcon} priority alt='' />
+                        <Image src={githubIcon} alt='' />
                         <strong>Sign up with Github</strong>
                     </button>
                 </LoginContainer>

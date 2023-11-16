@@ -1,4 +1,5 @@
 import { styled } from '../../styles'
+import * as RadioGroup from '@radix-ui/react-radio-group'
 
 export const BookContainer = styled('div', {
     position: 'absolute',
@@ -363,7 +364,7 @@ export const Container = styled('main', {
     justifyContent: 'center',
 })
 
-export const ExploreContainer = styled('div', {
+export const ExploreContainer = styled('form', {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -390,7 +391,7 @@ export const PageTitle = styled('div', {
     },
 })
 
-export const FormContainer = styled('form', {
+export const FormContainer = styled('div', {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -430,7 +431,7 @@ export const FormContainer = styled('form', {
     },
 })
 
-export const FilterBar = styled('div', {
+export const RadioGroupRoot = styled(RadioGroup.Root, {
     display: 'flex',
     flexDirection: 'row',
     gap: '$3',
@@ -438,7 +439,7 @@ export const FilterBar = styled('div', {
     marginTop: '$10',
 })
 
-export const FilterButton = styled('button', {
+export const RadioGroupItem = styled(RadioGroup.Item, {
     all: 'unset',
     padding: '$1 $4 $1 $4',
 
@@ -447,20 +448,17 @@ export const FilterButton = styled('button', {
 
     color: '$purple100',
 
-    cursor: 'pointer',
+    backgroundColor: 'transparent',
 
-    variants: {
-        active: {
-            true: {
-                backgroundColor: '$purple200',
-                color: '$gray100',
-                border: 'none',
-            },
-            false: {
-                backgroundColor: 'transparent',
-            },
-        },
+    '&[data-state="checked"]': {
+        backgroundColor: '$purple200',
+        color: '$gray100',
+        border: '1px solid $purple200',
     },
+})
+
+export const Label = styled('label', {
+    cursor: 'pointer',
 })
 
 export const FilterAnswer = styled('div', {

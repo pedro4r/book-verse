@@ -16,6 +16,10 @@ export default function Register() {
         }
         await signIn('google', { callbackUrl: '/home' })
     }
+
+    async function handleOpenHomePage() {
+        await router.push('/home')
+    }
     return (
         <Container>
             <ImageContainer>
@@ -33,10 +37,10 @@ export default function Register() {
                     <strong>Sign up with Google</strong>
                 </button>
                 <button>
-                    <Image src={githubIcon} priority alt='Book verse logo' />
+                    <Image src={githubIcon} alt='Book verse logo' />
                     <strong>Sign up with Github</strong>
                 </button>
-                <button>
+                <button onClick={handleOpenHomePage}>
                     <Image src={rocketLaunch} priority alt='Book verse logo' />
                     <strong>Access as Guest</strong>
                 </button>

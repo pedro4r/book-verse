@@ -175,7 +175,7 @@ export const NewReviewButton = styled('button', {
     },
 })
 
-export const NewReview = styled('div', {
+export const NewReview = styled('form', {
     display: 'flex',
     flexDirection: 'column',
 
@@ -211,7 +211,7 @@ export const NewReviewHeader = styled('div', {
     },
 })
 
-export const ReviewFormContainer = styled('form', {
+export const ReviewFormContainer = styled('div', {
     display: 'flex',
     flexDirection: 'column',
 

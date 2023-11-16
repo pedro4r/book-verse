@@ -27,9 +27,27 @@ import hobbit from '../../../public/hobbit.png'
 import { useSession } from 'next-auth/react'
 import { BookVerseContext } from '../../context/BookVerseContext'
 import { v4 as uuidv4 } from 'uuid'
+import { z } from 'zod'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const rateFormSchema = z.object({
+    comment: z.string(),
+    stars: z.number(),
+})
+
+type RateFormInputs = z.infer<typeof rateFormSchema>
 
 export function BookProfile() {
     const session = useSession()
+
+    const { register, handleSubmit, control } = useForm<RateFormInputs>({
+        resolver: zodResolver(rateFormSchema),
+        defaultValues: {
+            comment: '',
+            stars: 1,
+        },
+    })
 
     const [resetKey, setResetKey] = useState(uuidv4())
 
@@ -57,6 +75,10 @@ export function BookProfile() {
         changeBookContainerOpenStatus(false)
     }
 
+    function handleSubmitRate(data: RateFormInputs) {
+        console.log(data)
+    }
+
     return (
         <>
             <BookContainer open={isBookContainerOpen}>
@@ -69,7 +91,7 @@ export function BookProfile() {
                         <Info>
                             <strong>The Hobbit</strong>
                             <span>J.R.R. Tolkien</span>
-                            <StarRater />
+                            <StarRater rate={3} />
                             <small>3 Reviews</small>
                         </Info>
                     </BookDetail>
@@ -105,14 +127,28 @@ export function BookProfile() {
                             Rate this book
                         </NewReviewButton>
                     </span>
-                    <NewReview open={isNewReviewContainerOpen}>
+                    <NewReview
+                        onSubmit={handleSubmit((data) =>
+                            handleSubmitRate(data)
+                        )}
+                        open={isNewReviewContainerOpen}
+                    >
                         <NewReviewHeader>
                             <Avatar avatarSize='sm' />
                             <strong>{session.data?.user.name}</strong>
-                            <StarRater
-                                key={resetKey}
-                                size={'md'}
-                                enableChange={true}
+                            <Controller
+                                name='stars'
+                                control={control}
+                                render={({ field: { onChange } }) => {
+                                    return (
+                                        <StarRater
+                                            onChange={onChange}
+                                            key={resetKey}
+                                            size={'md'}
+                                            enableChange={true}
+                                        />
+                                    )
+                                }}
                             />
                         </NewReviewHeader>
                         <ReviewFormContainer>
@@ -120,6 +156,7 @@ export function BookProfile() {
                                 <textarea
                                     key={resetKey}
                                     maxLength={450}
+                                    {...register('comment')}
                                     onChange={handleOnChangeNewReview}
                                     placeholder='Share your thoughts and light the way for fellow readers!'
                                 />
@@ -148,7 +185,7 @@ export function BookProfile() {
                                 <strong>Pedro Requião</strong>
                                 <span>2 days ago</span>
                             </p>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </CardHeader>
 
                         <p>
@@ -166,7 +203,7 @@ export function BookProfile() {
                                 <strong>Pedro Requião</strong>
                                 <span>2 days ago</span>
                             </p>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </CardHeader>
 
                         <p>
@@ -184,7 +221,7 @@ export function BookProfile() {
                                 <strong>Pedro Requião</strong>
                                 <span>2 days ago</span>
                             </p>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </CardHeader>
 
                         <p>

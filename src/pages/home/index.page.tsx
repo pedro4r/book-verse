@@ -48,7 +48,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -76,7 +76,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -104,7 +104,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -132,7 +132,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -160,7 +160,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -188,7 +188,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -216,7 +216,7 @@ export default function Home() {
                                 <strong>Pedro Requião</strong>
                                 <span>Data</span>
                             </InfoContainer>
-                            <StarRater />
+                            <StarRater rate={3} />
                         </Header>
                         <Body>
                             <Image src={hobbit} priority alt='' />
@@ -248,7 +248,7 @@ export default function Home() {
                         <PopularBookInfo>
                             <strong>The Hobbit</strong>
                             <span>J.R.R. Tolkien</span>
-                            <StarRater />
+                            <StarRater rate={1} />
                         </PopularBookInfo>
                     </Book>
                     <Book>
@@ -256,7 +256,7 @@ export default function Home() {
                         <PopularBookInfo>
                             <strong>The Hobbit</strong>
                             <span>J.R.R. Tolkien</span>
-                            <StarRater />
+                            <StarRater rate={1} />
                         </PopularBookInfo>
                     </Book>
                 </PopularBooks>
