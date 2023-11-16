@@ -6,8 +6,8 @@ import { Controller, useForm, useFormContext } from 'react-hook-form'
 interface StarRating {
     size?: 'sm' | 'md'
     enableChange?: boolean
-    rate?: number
-    onChange?: (...event: any[]) => void
+    rate?: 0 | 1 | 2 | 3 | 4 | 5
+    onChange?: (starCount: number) => void
 }
 
 export type CheckStarsProps = ComponentProps<typeof RadioGroupRoot>
@@ -40,7 +40,7 @@ export function StarRater({
 
     function handleOnChange() {
         if (onChange) {
-            onChange(starRateCount + 1) // Passar o novo valor ou a informação relevante para onChange
+            onChange(starRateCount + 1)
         }
     }
 
@@ -80,14 +80,11 @@ export function StarRater({
                     size={size}
                     onMouseLeave={() => resetStarRateCount()}
                 >
-                    <Stars>
-                        {Array.from(Array(5).keys()).map((star) => (
-                            <Star
-                                key={star}
-                                weight={rate >= star ? 'fill' : 'thin'}
-                            />
-                        ))}
-                    </Stars>
+                    {Array.from(Array(5).keys()).map((star) => (
+                        <Stars key={star}>
+                            <Star weight={rate - 1 >= star ? 'fill' : 'thin'} />
+                        </Stars>
+                    ))}
                 </Container>
             )}
         </>

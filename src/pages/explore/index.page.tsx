@@ -151,7 +151,7 @@ export default function Explore() {
                             <BookInfo>
                                 <strong>The Hobbit</strong>
                                 <span>J.R.R. Tolkien</span>
-                                <StarRater />
+                                <StarRater rate={3} />
                             </BookInfo>
                         </InfoContainer>
                     </Book>

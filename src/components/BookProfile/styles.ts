@@ -305,11 +305,21 @@ export const ReviewCard = styled('div', {
     padding: '$6',
     marginTop: '$4',
 
-    backgroundColor: '$gray700',
     borderRadius: '8px',
 
     p: {
         display: 'block',
+    },
+
+    variants: {
+        commentFromTheUserInSession: {
+            true: {
+                backgroundColor: '$gray600',
+            },
+            false: {
+                backgroundColor: '$gray700',
+            },
+        },
     },
 })
 

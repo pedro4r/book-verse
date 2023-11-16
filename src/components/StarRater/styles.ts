@@ -27,7 +27,7 @@ export const RadioGroupRoot = styled(RadioGroup.Root, {
 export const Container = styled('div', {
     display: 'flex',
     flexDirection: 'row',
-    gap: '$2',
+    gap: '$1',
 
     variants: {
         size: {

@@ -75,8 +75,9 @@ export function BookProfile() {
         changeBookContainerOpenStatus(false)
     }
 
-    function handleSubmitRate(data: RateFormInputs) {
+    function handleSubmitReview(data: RateFormInputs) {
         console.log(data)
+        setIsNewReviewContainerOpen(false)
     }
 
     return (
@@ -129,7 +130,7 @@ export function BookProfile() {
                     </span>
                     <NewReview
                         onSubmit={handleSubmit((data) =>
-                            handleSubmitRate(data)
+                            handleSubmitReview(data)
                         )}
                         open={isNewReviewContainerOpen}
                     >
@@ -178,7 +179,7 @@ export function BookProfile() {
                             </ButtonContainer>
                         </ReviewFormContainer>
                     </NewReview>
-                    <ReviewCard>
+                    <ReviewCard commentFromTheUserInSession={true}>
                         <CardHeader>
                             <Avatar avatarSize={'sm'} />
                             <p>
@@ -196,7 +197,7 @@ export function BookProfile() {
                             enim assumenda ipsa ratione!
                         </p>
                     </ReviewCard>
-                    <ReviewCard>
+                    <ReviewCard commentFromTheUserInSession={false}>
                         <CardHeader>
                             <Avatar avatarSize={'sm'} />
                             <p>
@@ -214,7 +215,7 @@ export function BookProfile() {
                             enim assumenda ipsa ratione!
                         </p>
                     </ReviewCard>
-                    <ReviewCard>
+                    <ReviewCard commentFromTheUserInSession={false}>
                         <CardHeader>
                             <Avatar avatarSize={'sm'} />
                             <p>
