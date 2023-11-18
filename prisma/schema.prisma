@@ -53,3 +53,17 @@ model Session {
   @@index([user_id])
   @@map("sessions")
 }
+
+model Book {
+  id          String @id @default(uuid())
+  name        String
+  author      String
+  summary     String
+  cover_url   String
+  total_pages Int
+  category    String
+
+  created_at DateTime @default(now())
+
+  @@map("books")
+}

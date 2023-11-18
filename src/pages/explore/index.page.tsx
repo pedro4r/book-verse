@@ -25,6 +25,20 @@ import { BookVerseContext } from '../../context/BookVerseContext'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { api } from '../../lib/axios'
+import { useQuery } from '@tanstack/react-query'
+
+interface BookProps {
+    id: string
+    name: string
+    author: string
+    summary: string
+    cover_url: string
+    total_pages: number
+    category: string
+    created_at: Date
+    refetch?: () => Promise<BookProps[]>
+}
 
 const searchFormSchema = z.object({
     query: z.string(),
@@ -45,6 +59,8 @@ type SearchFormInputs = z.infer<typeof searchFormSchema>
 export default function Explore() {
     const router = useRouter()
     const session = useSession()
+
+    const [booksList, setBooksList] = useState<BookProps[]>([])
 
     const { register, handleSubmit, control } = useForm<SearchFormInputs>({
         resolver: zodResolver(searchFormSchema),
@@ -67,13 +83,22 @@ export default function Explore() {
             data: data.query,
             gender: data.gender,
         }
-        console.log(searchFilterQuery)
     }
 
     function handleSearchByFilter(event: ChangeEvent<HTMLInputElement>) {
         event.target.setCustomValidity('')
-        console.log(event.target.value.length)
     }
+
+    const { data } = useQuery<BookProps[]>(['books'], async () => {
+        const response = await api.get(`/books`)
+        return response.data
+    })
+
+    useEffect(() => {
+        if (data) {
+            setBooksList(data)
+        }
+    }, [data])
 
     return (
         <>
@@ -142,19 +167,29 @@ export default function Explore() {
                     />
                 </ExploreContainer>
                 <FilterAnswer>
-                    <Book onClick={() => changeBookContainerOpenStatus(true)}>
-                        <InfoContainer>
-                            <ReadLabel>
-                                <strong>Read</strong>
-                            </ReadLabel>
-                            <Image src={hobbit} alt='' />
-                            <BookInfo>
-                                <strong>The Hobbit</strong>
-                                <span>J.R.R. Tolkien</span>
-                                <StarRater rate={3} />
-                            </BookInfo>
-                        </InfoContainer>
-                    </Book>
+                    {booksList.map((book) => (
+                        <Book
+                            key={book.id}
+                            onClick={() => changeBookContainerOpenStatus(true)}
+                        >
+                            <InfoContainer>
+                                <ReadLabel>
+                                    <strong>Read</strong>
+                                </ReadLabel>
+                                <Image
+                                    src={book.cover_url}
+                                    alt=''
+                                    width={50}
+                                    height={50}
+                                />
+                                <BookInfo>
+                                    <strong>{book.name}</strong>
+                                    <span>{book.author}</span>
+                                    <StarRater rate={3} />
+                                </BookInfo>
+                            </InfoContainer>
+                        </Book>
+                    ))}
                 </FilterAnswer>
             </Container>
         </>

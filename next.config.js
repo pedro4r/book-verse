@@ -2,6 +2,10 @@
 const nextConfig = {
     pageExtensions: ['page.tsx', 'api.ts', 'api.tsx'],
     images: {
+        domains: [
+            'localhost',
+            'aws-book-verse-bucket.s3.us-east-1.amazonaws.com',
+        ],
         remotePatterns: [
             {
                 protocol: 'https',
