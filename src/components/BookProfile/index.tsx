@@ -143,7 +143,7 @@ export function BookProfile() {
                                 render={({ field: { onChange } }) => {
                                     return (
                                         <StarRater
-                                            onChange={onChange}
+                                            onValueChange={onChange}
                                             key={resetKey}
                                             size={'md'}
                                             enableChange={true}

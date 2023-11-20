@@ -17,19 +17,9 @@ import {
 import Image from 'next/image'
 import hobbit from '../../../public/hobbit.png'
 import { Avatar } from '../../components/Avatar'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { StarRater } from '../../components/StarRater'
-import { SignInBox } from '../../components/SignInBox'
 
 export default function Home() {
-    const router = useRouter()
-    useEffect(() => {
-        if (router.asPath.includes('#')) {
-            router.replace(router.asPath.split('#')[0])
-        }
-    }, [router])
-
     return (
         <>
             <Container>

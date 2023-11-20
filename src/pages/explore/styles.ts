@@ -457,6 +457,8 @@ export const RadioGroupItem = styled(RadioGroup.Item, {
     },
 })
 
+export const RadioGroupIndicator = styled(RadioGroup.Indicator, {})
+
 export const Label = styled('label', {
     cursor: 'pointer',
 })
@@ -526,6 +528,7 @@ export const BookInfo = styled('div', {
         fontSize: '$md',
         color: '$gray100',
         alignSelf: 'flex-start',
+        maxWidth: '6.3rem',
     },
 
     span: {

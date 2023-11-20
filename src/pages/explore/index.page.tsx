@@ -13,12 +13,10 @@ import {
     PageTitle,
     RadioGroupRoot,
     ReadLabel,
+    RadioGroupIndicator,
 } from './styles'
 import Image from 'next/image'
-import hobbit from '../../../public/hobbit.png'
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { StarRater } from '../../components/StarRater'
 import { BookProfile } from '../../components/BookProfile'
 import { BookVerseContext } from '../../context/BookVerseContext'
@@ -26,7 +24,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { api } from '../../lib/axios'
-import { useQuery } from '@tanstack/react-query'
+import { v4 as uuidv4 } from 'uuid'
 
 interface BookProps {
     id: string
@@ -41,8 +39,8 @@ interface BookProps {
 }
 
 const searchFormSchema = z.object({
-    query: z.string(),
-    gender: z.enum([
+    textInput: z.string(),
+    category: z.enum([
         'all',
         'computer',
         'education',
@@ -57,48 +55,88 @@ const searchFormSchema = z.object({
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export default function Explore() {
-    const router = useRouter()
-    const session = useSession()
-
     const [booksList, setBooksList] = useState<BookProps[]>([])
-
-    const { register, handleSubmit, control } = useForm<SearchFormInputs>({
-        resolver: zodResolver(searchFormSchema),
-        defaultValues: {
-            query: '',
-            gender: 'all',
-        },
-    })
-
-    useEffect(() => {
-        if (router.asPath.includes('#')) {
-            router.replace(router.asPath.split('#')[0])
-        }
-    }, [router])
-
     const { changeBookContainerOpenStatus } = useContext(BookVerseContext)
 
-    function handleSearchByTextInput(data: SearchFormInputs) {
-        const searchFilterQuery = {
-            data: data.query,
-            gender: data.gender,
-        }
-    }
-
-    function handleSearchByFilter(event: ChangeEvent<HTMLInputElement>) {
-        event.target.setCustomValidity('')
-    }
-
-    const { data } = useQuery<BookProps[]>(['books'], async () => {
-        const response = await api.get(`/books`)
-        return response.data
-    })
-
     useEffect(() => {
-        if (data) {
-            setBooksList(data)
+        const fetchInitialBooks = async () => {
+            try {
+                const searchFilterQuery = {
+                    textInput: '',
+                    category: 'all',
+                }
+                const response = await api.get('/explore-search', {
+                    params: searchFilterQuery,
+                })
+                const { data } = response
+                setBooksList([...data])
+            } catch (error) {
+                console.error('Error:', error)
+            }
         }
-    }, [data])
+
+        fetchInitialBooks()
+    }, [])
+
+    const { register, handleSubmit, control, watch } =
+        useForm<SearchFormInputs>({
+            resolver: zodResolver(searchFormSchema),
+            defaultValues: {
+                textInput: '',
+                category: 'all',
+            },
+        })
+
+    const handleSearchBooks = async (data?: SearchFormInputs) => {
+        let searchFilterQuery = {
+            textInput: '',
+            category: 'all',
+        }
+        if (data) {
+            searchFilterQuery = {
+                textInput: data.textInput,
+                category: data.category,
+            }
+        } else {
+            searchFilterQuery = {
+                textInput: watch().textInput,
+                category: watch().category,
+            }
+        }
+
+        try {
+            const response = await api.get('/explore-search', {
+                params: searchFilterQuery,
+            })
+
+            const { data } = response
+            setBooksList([...data])
+            return data
+        } catch (error) {
+            console.error('Error:', error)
+        }
+    }
+
+    const filteredBooks = useMemo(() => {
+        return booksList.map((book) => (
+            <Book
+                key={uuidv4()}
+                onClick={() => changeBookContainerOpenStatus(true)}
+            >
+                <InfoContainer>
+                    <ReadLabel>
+                        <strong>Read</strong>
+                    </ReadLabel>
+                    <Image src={book.cover_url} alt='' width={50} height={50} />
+                    <BookInfo>
+                        <strong>{book.name}</strong>
+                        <span>{book.author}</span>
+                        <StarRater rate={3} />
+                    </BookInfo>
+                </InfoContainer>
+            </Book>
+        ))
+    }, [booksList, changeBookContainerOpenStatus])
 
     return (
         <>
@@ -106,9 +144,7 @@ export default function Explore() {
             <Container>
                 <Sidebar />
                 <ExploreContainer
-                    onSubmit={handleSubmit((data) =>
-                        handleSearchByTextInput(data)
-                    )}
+                    onSubmit={handleSubmit((data) => handleSearchBooks(data))}
                 >
                     <PageTitle>
                         <Binoculars size={32} />
@@ -117,80 +153,81 @@ export default function Explore() {
                             <input
                                 type='text'
                                 placeholder='Search Content'
-                                {...register('query')}
+                                {...register('textInput')}
                             />
                             <MagnifyingGlass size={20} />
                         </FormContainer>
                     </PageTitle>
                     <Controller
-                        name='gender'
+                        name='category'
                         control={control}
                         render={({ field: { onChange } }) => {
                             return (
                                 <RadioGroupRoot
                                     defaultValue='all'
-                                    aria-label='Gender'
-                                    onChange={(e) => {
-                                        onChange(e)
-                                        handleSearchByFilter(
-                                            e as ChangeEvent<HTMLInputElement>
-                                        )
+                                    required={true}
+                                    aria-label='category'
+                                    onValueChange={(value) => {
+                                        onChange(value)
+                                        handleSearchBooks()
                                     }}
                                 >
-                                    <RadioGroupItem value='all' id='1'>
-                                        <Label htmlFor='1'>All</Label>
+                                    <RadioGroupItem value='all' id='all'>
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='all'>All</Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='computer' id='2'>
-                                        <Label htmlFor='2'>Computer</Label>
+                                    <RadioGroupItem
+                                        value='computer'
+                                        id='computer'
+                                    >
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='computer'>
+                                            Computer
+                                        </Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='education' id='3'>
-                                        <Label htmlFor='3'>Education</Label>
+                                    <RadioGroupItem
+                                        value='education'
+                                        id='education'
+                                    >
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='education'>
+                                            Education
+                                        </Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='fantasy' id='4'>
-                                        <Label htmlFor='4'>Fantasy</Label>
+                                    <RadioGroupItem
+                                        value='fantasy'
+                                        id='fantasy'
+                                    >
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='fantasy'>Fantasy</Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='scifi' id='5'>
-                                        <Label htmlFor='5'>Sci-Fi</Label>
+                                    <RadioGroupItem value='scifi' id='scifi'>
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='scifi'>Sci-Fi</Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='horror' id='6'>
-                                        <Label htmlFor='6'>Horror</Label>
+                                    <RadioGroupItem value='horror' id='horror'>
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='horror'>Horror</Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='hqs' id='7'>
-                                        <Label htmlFor='7'>HQs</Label>
+                                    <RadioGroupItem value='hqs' id='hqs'>
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='hqs'>HQs</Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='suspense' id='8'>
-                                        <Label htmlFor='8'>Suspense</Label>
+                                    <RadioGroupItem
+                                        value='suspense'
+                                        id='suspense'
+                                    >
+                                        <RadioGroupIndicator />
+                                        <Label htmlFor='suspense'>
+                                            Suspense
+                                        </Label>
                                     </RadioGroupItem>
                                 </RadioGroupRoot>
                             )
                         }}
                     />
                 </ExploreContainer>
-                <FilterAnswer>
-                    {booksList.map((book) => (
-                        <Book
-                            key={book.id}
-                            onClick={() => changeBookContainerOpenStatus(true)}
-                        >
-                            <InfoContainer>
-                                <ReadLabel>
-                                    <strong>Read</strong>
-                                </ReadLabel>
-                                <Image
-                                    src={book.cover_url}
-                                    alt=''
-                                    width={50}
-                                    height={50}
-                                />
-                                <BookInfo>
-                                    <strong>{book.name}</strong>
-                                    <span>{book.author}</span>
-                                    <StarRater rate={3} />
-                                </BookInfo>
-                            </InfoContainer>
-                        </Book>
-                    ))}
-                </FilterAnswer>
+                <FilterAnswer>{filteredBooks}</FilterAnswer>
             </Container>
         </>
     )

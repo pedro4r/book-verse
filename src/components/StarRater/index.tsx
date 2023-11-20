@@ -7,7 +7,7 @@ interface StarRating {
     size?: 'sm' | 'md'
     enableChange?: boolean
     rate?: 0 | 1 | 2 | 3 | 4 | 5
-    onChange?: (starCount: number) => void
+    onValueChange?: (starCount: number) => void
 }
 
 export type CheckStarsProps = ComponentProps<typeof RadioGroupRoot>
@@ -16,7 +16,7 @@ export function StarRater({
     size = 'sm',
     enableChange = false,
     rate = 0,
-    onChange,
+    onValueChange,
 }: StarRating) {
     const [starRateCount, setStarRateCount] = useState<number>(0)
     const [starRateCountPreview, setStarRateCountPreview] = useState<number>(0)
@@ -39,8 +39,8 @@ export function StarRater({
     }
 
     function handleOnChange() {
-        if (onChange) {
-            onChange(starRateCount + 1)
+        if (onValueChange) {
+            onValueChange(starRateCount + 1)
         }
     }
 
@@ -52,7 +52,7 @@ export function StarRater({
                     onMouseLeave={() => resetStarRateCount()}
                     aria-label='Stars'
                     name='stars'
-                    onChange={handleOnChange}
+                    onValueChange={handleOnChange}
                 >
                     {Array.from(Array(5).keys()).map((star) => (
                         <RadioGroupItem

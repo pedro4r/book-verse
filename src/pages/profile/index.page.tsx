@@ -25,8 +25,6 @@ import {
 import Image from 'next/image'
 import hobbit from '../../../public/hobbit.png'
 import { Avatar } from '../../components/Avatar'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import horizontalBar from '../../../public/horizontal-icon-bar.svg'
 import { StarRater } from '../../components/StarRater'
@@ -41,7 +39,6 @@ const searchFormSchema = z.object({
 type SearchFormInput = z.infer<typeof searchFormSchema>
 
 export default function Profile() {
-    const router = useRouter()
     const session = useSession()
 
     const { register, handleSubmit } = useForm<SearchFormInput>({
@@ -50,12 +47,6 @@ export default function Profile() {
             query: '',
         },
     })
-
-    useEffect(() => {
-        if (router.asPath.includes('#')) {
-            router.replace(router.asPath.split('#')[0])
-        }
-    }, [router])
 
     function handleSearch(data: SearchFormInput) {
         const searchQuery = {

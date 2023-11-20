@@ -19,6 +19,11 @@ const s3 = new S3Client({
     region: bucketregion,
 })
 
+interface BookSearchInterface {
+    textInput?: string
+    category?: string
+}
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -27,7 +32,54 @@ export default async function handler(
         return res.status(405).end()
     }
 
-    const response = await prisma.book.findMany()
+    const { category, textInput }: BookSearchInterface = req.query
+
+    console.log(category + '----' + textInput)
+
+    let response = []
+
+    if (category === 'all' && textInput === '') {
+        response = await prisma.book.findMany()
+    } else if (textInput !== '' && category === 'all') {
+        response = await prisma.book.findMany({
+            where: {
+                OR: [
+                    {
+                        name: {
+                            contains: textInput,
+                        },
+                    },
+                    {
+                        author: {
+                            contains: textInput,
+                        },
+                    },
+                ],
+            },
+        })
+    } else if (textInput !== '') {
+        response = await prisma.book.findMany({
+            where: {
+                category,
+                OR: [
+                    {
+                        name: {
+                            contains: textInput,
+                        },
+                    },
+                    {
+                        author: {
+                            contains: textInput,
+                        },
+                    },
+                ],
+            },
+        })
+    } else {
+        response = await prisma.book.findMany({
+            where: { category },
+        })
+    }
 
     const books = await Promise.all(
         response.map(async (book) => {
@@ -38,7 +90,6 @@ export default async function handler(
 
             const command = new GetObjectCommand(params)
             const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
-
             return {
                 id: book.id,
                 name: book.name,
