@@ -1,8 +1,15 @@
 import { createContext, ReactNode, useState } from 'react'
 
+interface BookProfileModal {
+    openStatus: boolean
+    id: string
+    imagUrl: string
+}
+
 interface BookVerseContextType {
-    isBookContainerOpen: boolean
-    changeBookContainerOpenStatus: (status: boolean) => void
+    bookProfileState: BookProfileModal
+
+    changeBookProfileState: (obj: BookProfileModal) => void
     isSignInBoxOpen: boolean
     changeSignInBoxOpenStatus: (status: boolean) => void
 }
@@ -16,20 +23,23 @@ export const BookVerseContext = createContext({} as BookVerseContextType)
 export function BookVerseContextProvider({
     children,
 }: BookVerseContextProviderProps) {
-    const [isBookContainerOpen, setIsBookContainerOpen] =
-        useState<boolean>(false)
-
-    const [isBookContainerOpen2, setIsBookContainerOpen2] = useState<object>({
-        open: false,
+    const [bookProfileState, setBookProfileState] = useState<BookProfileModal>({
+        openStatus: false,
         id: '',
+        imagUrl: '',
     })
 
-    function changeBookContainerOpenStatus(status: boolean) {
-        setIsBookContainerOpen(status)
-    }
-
-    function changeBookContainerOpenStatus2(obj: object) {
-        setIsBookContainerOpen2(obj)
+    function changeBookProfileState({
+        openStatus,
+        id,
+        imagUrl,
+    }: BookProfileModal) {
+        setBookProfileState((prevState) => ({
+            ...prevState,
+            openStatus,
+            id,
+            imagUrl,
+        }))
     }
 
     const [isSignInBoxOpen, setIsSignInBoxOpen] = useState<boolean>(false)
@@ -41,8 +51,8 @@ export function BookVerseContextProvider({
     return (
         <BookVerseContext.Provider
             value={{
-                isBookContainerOpen,
-                changeBookContainerOpenStatus,
+                bookProfileState,
+                changeBookProfileState,
                 isSignInBoxOpen,
                 changeSignInBoxOpenStatus,
             }}

@@ -112,6 +112,7 @@ export const Databox = styled('div', {
 
         strong: {
             fontSize: '$lg',
+            textTransform: 'capitalize',
         },
     },
 })

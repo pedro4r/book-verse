@@ -52,7 +52,6 @@ export default function Profile() {
         const searchQuery = {
             data: data.query,
         }
-        console.log(searchQuery)
     }
 
     return (

@@ -56,17 +56,17 @@ type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export default function Explore() {
     const [booksList, setBooksList] = useState<BookProps[]>([])
-    const { changeBookContainerOpenStatus } = useContext(BookVerseContext)
+    const { bookProfileState, changeBookProfileState } =
+        useContext(BookVerseContext)
 
     useEffect(() => {
         const fetchInitialBooks = async () => {
             try {
-                const searchFilterQuery = {
-                    textInput: '',
-                    category: 'all',
-                }
                 const response = await api.get('/explore-search', {
-                    params: searchFilterQuery,
+                    params: {
+                        textInput: '',
+                        category: 'all',
+                    },
                 })
                 const { data } = response
                 setBooksList([...data])
@@ -121,13 +121,24 @@ export default function Explore() {
         return booksList.map((book) => (
             <Book
                 key={uuidv4()}
-                onClick={() => changeBookContainerOpenStatus(true)}
+                onClick={() =>
+                    changeBookProfileState({
+                        openStatus: true,
+                        id: book.id,
+                        imagUrl: book.cover_url,
+                    })
+                }
             >
                 <InfoContainer>
                     <ReadLabel>
                         <strong>Read</strong>
                     </ReadLabel>
-                    <Image src={book.cover_url} alt='' width={50} height={50} />
+                    <Image
+                        src={book.cover_url}
+                        alt=''
+                        width={150}
+                        height={150}
+                    />
                     <BookInfo>
                         <strong>{book.name}</strong>
                         <span>{book.author}</span>
@@ -136,11 +147,12 @@ export default function Explore() {
                 </InfoContainer>
             </Book>
         ))
-    }, [booksList, changeBookContainerOpenStatus])
+    }, [booksList, changeBookProfileState])
 
     return (
         <>
-            <BookProfile />
+            {bookProfileState.openStatus ? <BookProfile /> : ''}
+
             <Container>
                 <Sidebar />
                 <ExploreContainer

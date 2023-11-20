@@ -22,7 +22,7 @@ import {
 import { BookOpen, BookmarkSimple, Check, X } from 'phosphor-react'
 import { StarRater } from '../StarRater'
 import { Avatar } from '../Avatar'
-import { ChangeEvent, useContext, useState } from 'react'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import hobbit from '../../../public/hobbit.png'
 import { useSession } from 'next-auth/react'
 import { BookVerseContext } from '../../context/BookVerseContext'
@@ -30,6 +30,15 @@ import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { api } from '../../lib/axios'
+
+interface BookInfoInterface {
+    name: string
+    author: string
+    summary: string
+    totalPages: number
+    category: string
+}
 
 const rateFormSchema = z.object({
     comment: z.string(),
@@ -40,6 +49,14 @@ type RateFormInputs = z.infer<typeof rateFormSchema>
 
 export function BookProfile() {
     const session = useSession()
+
+    const [bookInfo, setBookInfo] = useState<BookInfoInterface>({
+        name: '',
+        author: '',
+        summary: '',
+        totalPages: 0,
+        category: '',
+    })
 
     const { register, handleSubmit, control } = useForm<RateFormInputs>({
         resolver: zodResolver(rateFormSchema),
@@ -58,7 +75,7 @@ export function BookProfile() {
 
     const { changeSignInBoxOpenStatus } = useContext(BookVerseContext)
 
-    const { isBookContainerOpen, changeBookContainerOpenStatus } =
+    const { bookProfileState, changeBookProfileState } =
         useContext(BookVerseContext)
 
     function handleOnChangeNewReview(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -72,26 +89,54 @@ export function BookProfile() {
     }
 
     function handleCloseBookProfile() {
-        changeBookContainerOpenStatus(false)
+        changeBookProfileState({ openStatus: false, id: '', imagUrl: '' })
     }
 
     function handleSubmitReview(data: RateFormInputs) {
-        console.log(data)
         setIsNewReviewContainerOpen(false)
     }
 
+    useEffect(() => {
+        const fetchInitialBooks = async () => {
+            try {
+                const response = await api.get('/book-profile', {
+                    params: { id: bookProfileState.id },
+                })
+                const { data } = response
+
+                setBookInfo((prevState) => ({
+                    ...prevState,
+                    name: data.name,
+                    author: data.author,
+                    summary: data.summary,
+                    totalPages: data.total_pages,
+                    category: data.category,
+                }))
+            } catch (error) {
+                console.error('Error:', error)
+            }
+        }
+
+        fetchInitialBooks()
+    }, [])
+
     return (
         <>
-            <BookContainer open={isBookContainerOpen}>
+            <BookContainer open={bookProfileState.openStatus}>
                 <CloseButton onClick={() => handleCloseBookProfile()}>
                     <X size={24} weight='thin' />
                 </CloseButton>
                 <BookCard>
                     <BookDetail>
-                        <Image src={hobbit} alt='' />
+                        <Image
+                            src={bookProfileState.imagUrl}
+                            alt=''
+                            width={250}
+                            height={250}
+                        />
                         <Info>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
+                            <strong>{bookInfo.name}</strong>
+                            <span>{bookInfo.author}</span>
                             <StarRater rate={3} />
                             <small>3 Reviews</small>
                         </Info>
@@ -101,14 +146,14 @@ export function BookProfile() {
                             <BookmarkSimple size={24} />
                             <div>
                                 <span>Category</span>
-                                <strong>Fantasy</strong>
+                                <strong>{bookInfo.category}</strong>
                             </div>
                         </Databox>
                         <Databox>
                             <BookOpen size={24} />
                             <div>
                                 <span>Pages</span>
-                                <strong>160</strong>
+                                <strong>{bookInfo.totalPages}</strong>
                             </div>
                         </Databox>
                     </CardInfo>
@@ -235,7 +280,7 @@ export function BookProfile() {
                     </ReviewCard>
                 </ReviewContainer>
             </BookContainer>
-            <Mask open={isBookContainerOpen}></Mask>
+            <Mask open={bookProfileState.openStatus}></Mask>
         </>
     )
 }

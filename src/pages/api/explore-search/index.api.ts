@@ -34,8 +34,6 @@ export default async function handler(
 
     const { category, textInput }: BookSearchInterface = req.query
 
-    console.log(category + '----' + textInput)
-
     let response = []
 
     if (category === 'all' && textInput === '') {
