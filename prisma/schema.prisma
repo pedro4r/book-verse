@@ -19,6 +19,7 @@ model User {
   created_at DateTime  @default(now())
   accounts   Account[]
   sessions   Session[]
+  Reviews    Reviews[]
 
   @@map("users")
 }
@@ -54,7 +55,7 @@ model Session {
   @@map("sessions")
 }
 
-model Book {
+model Books {
   id          String @id @default(uuid())
   name        String
   author      String
@@ -63,7 +64,25 @@ model Book {
   total_pages Int
   category    String
 
-  created_at DateTime @default(now())
+  created_at DateTime  @default(now())
+  Reviews    Reviews[]
 
   @@map("books")
+}
+
+model Reviews {
+  id      String @id @default(uuid())
+  rating  Int
+  comment String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  books      Books    @relation(fields: [book_id], references: [id])
+  book_id    String
+  created_at DateTime @default(now())
+
+  @@index([user_id])
+  @@index([book_id])
+  @@map("reviews")
 }
