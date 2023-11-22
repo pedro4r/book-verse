@@ -23,7 +23,6 @@ import { BookOpen, BookmarkSimple, Check, X } from 'phosphor-react'
 import { StarRater } from '../StarRater'
 import { Avatar } from '../Avatar'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
-import hobbit from '../../../public/hobbit.png'
 import { useSession } from 'next-auth/react'
 import { BookVerseContext } from '../../context/BookVerseContext'
 import { v4 as uuidv4 } from 'uuid'
@@ -31,6 +30,8 @@ import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { api } from '../../lib/axios'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 interface BookInfoInterface {
     name: string
@@ -38,6 +39,12 @@ interface BookInfoInterface {
     summary: string
     totalPages: number
     category: string
+    reviews: {
+        comment: string
+        rating: 0 | 1 | 2 | 3 | 4 | 5
+        created_at: Date
+        user: { name: string; avatar_url: string }
+    }[]
 }
 
 const rateFormSchema = z.object({
@@ -56,6 +63,7 @@ export function BookProfile() {
         summary: '',
         totalPages: 0,
         category: '',
+        reviews: [],
     })
 
     const { register, handleSubmit, control } = useForm<RateFormInputs>({
@@ -92,7 +100,29 @@ export function BookProfile() {
         changeBookProfileState({ openStatus: false, id: '', imagUrl: '' })
     }
 
-    function handleSubmitReview(data: RateFormInputs) {
+    async function handleSubmitReview(review: RateFormInputs) {
+        try {
+            await api.post('/create-review', {
+                params: {
+                    bookId: bookProfileState.id,
+                    userId: session.data?.user.id,
+                    comment: review.comment,
+                    rating: review.stars,
+                },
+            })
+
+            setBookInfo({
+                name: '',
+                author: '',
+                summary: '',
+                totalPages: 0,
+                category: '',
+                reviews: [],
+            })
+        } catch (error) {
+            console.error('Error:', error)
+        }
+
         setIsNewReviewContainerOpen(false)
     }
 
@@ -103,14 +133,16 @@ export function BookProfile() {
                     params: { id: bookProfileState.id },
                 })
                 const { data } = response
+                const { bookInfo, reviews } = data
 
                 setBookInfo((prevState) => ({
                     ...prevState,
-                    name: data.name,
-                    author: data.author,
-                    summary: data.summary,
-                    totalPages: data.total_pages,
-                    category: data.category,
+                    name: bookInfo.name,
+                    author: bookInfo.author,
+                    summary: bookInfo.summary,
+                    totalPages: bookInfo.total_pages,
+                    category: bookInfo.category,
+                    reviews,
                 }))
             } catch (error) {
                 console.error('Error:', error)
@@ -118,7 +150,7 @@ export function BookProfile() {
         }
 
         fetchInitialBooks()
-    }, [])
+    }, [bookProfileState, isNewReviewContainerOpen])
 
     return (
         <>
@@ -224,60 +256,32 @@ export function BookProfile() {
                             </ButtonContainer>
                         </ReviewFormContainer>
                     </NewReview>
-                    <ReviewCard commentFromTheUserInSession={true}>
-                        <CardHeader>
-                            <Avatar avatarSize={'sm'} />
-                            <p>
-                                <strong>Pedro Requião</strong>
-                                <span>2 days ago</span>
-                            </p>
-                            <StarRater rate={3} />
-                        </CardHeader>
+                    {bookInfo.reviews.map((review) => {
+                        dayjs.extend(relativeTime)
+                        const createdAt = dayjs(review.created_at).fromNow()
+                        console.log(createdAt)
+                        return (
+                            <ReviewCard
+                                commentFromTheUserInSession={true}
+                                key={uuidv4()}
+                            >
+                                <CardHeader>
+                                    <Avatar
+                                        avatarSize={'sm'}
+                                        altName={review.user.name}
+                                        avatarUrl={review.user.avatar_url}
+                                    />
+                                    <p>
+                                        <strong>{review.user.name}</strong>
+                                        <span>{createdAt}</span>
+                                    </p>
+                                    <StarRater rate={review.rating} />
+                                </CardHeader>
 
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quibusdam optio cupiditate suscipit atque
-                            aperiam mollitia, debitis quam saepe rerum rem
-                            consectetur quod blanditiis quis possimus aspernatur
-                            enim assumenda ipsa ratione!
-                        </p>
-                    </ReviewCard>
-                    <ReviewCard commentFromTheUserInSession={false}>
-                        <CardHeader>
-                            <Avatar avatarSize={'sm'} />
-                            <p>
-                                <strong>Pedro Requião</strong>
-                                <span>2 days ago</span>
-                            </p>
-                            <StarRater rate={3} />
-                        </CardHeader>
-
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quibusdam optio cupiditate suscipit atque
-                            aperiam mollitia, debitis quam saepe rerum rem
-                            consectetur quod blanditiis quis possimus aspernatur
-                            enim assumenda ipsa ratione!
-                        </p>
-                    </ReviewCard>
-                    <ReviewCard commentFromTheUserInSession={false}>
-                        <CardHeader>
-                            <Avatar avatarSize={'sm'} />
-                            <p>
-                                <strong>Pedro Requião</strong>
-                                <span>2 days ago</span>
-                            </p>
-                            <StarRater rate={3} />
-                        </CardHeader>
-
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Quibusdam optio cupiditate suscipit atque
-                            aperiam mollitia, debitis quam saepe rerum rem
-                            consectetur quod blanditiis quis possimus aspernatur
-                            enim assumenda ipsa ratione!
-                        </p>
-                    </ReviewCard>
+                                <p>{review.comment}</p>
+                            </ReviewCard>
+                        )
+                    })}
                 </ReviewContainer>
             </BookContainer>
             <Mask open={bookProfileState.openStatus}></Mask>

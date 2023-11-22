@@ -37,9 +37,9 @@ export default async function handler(
     let response = []
 
     if (category === 'all' && textInput === '') {
-        response = await prisma.book.findMany()
+        response = await prisma.books.findMany()
     } else if (textInput !== '' && category === 'all') {
-        response = await prisma.book.findMany({
+        response = await prisma.books.findMany({
             where: {
                 OR: [
                     {
@@ -56,7 +56,7 @@ export default async function handler(
             },
         })
     } else if (textInput !== '') {
-        response = await prisma.book.findMany({
+        response = await prisma.books.findMany({
             where: {
                 category,
                 OR: [
@@ -74,7 +74,7 @@ export default async function handler(
             },
         })
     } else {
-        response = await prisma.book.findMany({
+        response = await prisma.books.findMany({
             where: { category },
         })
     }

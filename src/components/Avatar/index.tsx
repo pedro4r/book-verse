@@ -5,19 +5,20 @@ import { UserCircle } from 'phosphor-react'
 
 interface AvatarProps {
     avatarSize?: 'md' | 'sm'
+    avatarUrl?: string
+    altName?: string
 }
 
-export function Avatar({ avatarSize = 'md' }: AvatarProps) {
-    const session = useSession()
-    if (session.data) {
+export function Avatar({ avatarSize = 'md', avatarUrl, altName }: AvatarProps) {
+    if (avatarUrl) {
         return (
             <AvatarContainer
                 avatarMode={'withAvatar'}
                 sizeOfAvatar={avatarSize}
             >
                 <Image
-                    src={session.data?.user?.avatar_url ?? ''}
-                    alt={session.data?.user.name}
+                    src={avatarUrl}
+                    alt={altName ?? ''}
                     height={32}
                     width={32}
                 />

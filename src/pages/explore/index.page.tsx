@@ -45,7 +45,7 @@ const searchFormSchema = z.object({
         'computer',
         'education',
         'fantasy',
-        'scifi',
+        'sci-fi',
         'horror',
         'hqs',
         'suspense',
@@ -213,9 +213,9 @@ export default function Explore() {
                                         <RadioGroupIndicator />
                                         <Label htmlFor='fantasy'>Fantasy</Label>
                                     </RadioGroupItem>
-                                    <RadioGroupItem value='scifi' id='scifi'>
+                                    <RadioGroupItem value='sci-fi' id='scifi'>
                                         <RadioGroupIndicator />
-                                        <Label htmlFor='scifi'>Sci-Fi</Label>
+                                        <Label htmlFor='sci-fi'>Sci-Fi</Label>
                                     </RadioGroupItem>
                                     <RadioGroupItem value='horror' id='horror'>
                                         <RadioGroupIndicator />

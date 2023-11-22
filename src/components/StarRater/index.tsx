@@ -3,7 +3,7 @@ import { Container, RadioGroupItem, RadioGroupRoot, Stars } from './styles'
 import { useState, ComponentProps, ChangeEvent } from 'react'
 import { Controller, useForm, useFormContext } from 'react-hook-form'
 
-interface StarRating {
+export interface StarRating {
     size?: 'sm' | 'md'
     enableChange?: boolean
     rate?: 0 | 1 | 2 | 3 | 4 | 5

@@ -7,6 +7,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '../lib/react-query'
 import { useEffect } from 'react'
 import { Router, useRouter } from 'next/router'
+import '../lib/dayjs'
 
 globalStyles()
 
