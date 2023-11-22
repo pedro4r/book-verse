@@ -39,6 +39,7 @@ interface BookInfoInterface {
     summary: string
     totalPages: number
     category: string
+    ratingAverage: 0 | 1 | 2 | 3 | 4 | 5
     reviews: {
         comment: string
         rating: 0 | 1 | 2 | 3 | 4 | 5
@@ -63,6 +64,7 @@ export function BookProfile() {
         summary: '',
         totalPages: 0,
         category: '',
+        ratingAverage: 0,
         reviews: [],
     })
 
@@ -117,6 +119,7 @@ export function BookProfile() {
                 summary: '',
                 totalPages: 0,
                 category: '',
+                ratingAverage: 0,
                 reviews: [],
             })
         } catch (error) {
@@ -135,6 +138,8 @@ export function BookProfile() {
                 const { data } = response
                 const { bookInfo, reviews } = data
 
+                console.log(bookInfo.a)
+
                 setBookInfo((prevState) => ({
                     ...prevState,
                     name: bookInfo.name,
@@ -142,6 +147,7 @@ export function BookProfile() {
                     summary: bookInfo.summary,
                     totalPages: bookInfo.total_pages,
                     category: bookInfo.category,
+                    ratingAverage: bookInfo.ratingAverage,
                     reviews,
                 }))
             } catch (error) {
@@ -169,8 +175,8 @@ export function BookProfile() {
                         <Info>
                             <strong>{bookInfo.name}</strong>
                             <span>{bookInfo.author}</span>
-                            <StarRater rate={3} />
-                            <small>3 Reviews</small>
+                            <StarRater rate={bookInfo.ratingAverage} />
+                            <small>{bookInfo.reviews.length} Reviews</small>
                         </Info>
                     </BookDetail>
                     <CardInfo>

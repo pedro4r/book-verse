@@ -25,8 +25,17 @@ export default async function handler(
         include: { user: true },
     })
 
+    const ratingSum = reviews.reduce((acc, review) => {
+        return (acc += review.rating)
+    }, 0)
+
+    const ratingAverage = Math.ceil(ratingSum / reviews.length)
+
     const response = {
-        bookInfo,
+        bookInfo: {
+            ...bookInfo,
+            ratingAverage,
+        },
         reviews,
     }
 
