@@ -138,8 +138,6 @@ export function BookProfile() {
                 const { data } = response
                 const { bookInfo, reviews } = data
 
-                console.log(bookInfo.a)
-
                 setBookInfo((prevState) => ({
                     ...prevState,
                     name: bookInfo.name,

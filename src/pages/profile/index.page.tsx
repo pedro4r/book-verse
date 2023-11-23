@@ -128,7 +128,10 @@ export default function Profile() {
             </Reviews>
             <UserInfoContainer>
                 <ProfileInfo>
-                    <Avatar avatarSize={'md'} />
+                    <Avatar
+                        avatarUrl={session.data?.user.avatar_url}
+                        avatarSize={'md'}
+                    />
                     <strong>{session?.data?.user.name}</strong>
                     <span>member since 2023</span>
                 </ProfileInfo>

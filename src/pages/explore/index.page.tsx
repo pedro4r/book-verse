@@ -35,6 +35,8 @@ interface BookProps {
     total_pages: number
     category: string
     created_at: Date
+    read?: boolean
+    ratingAverage: number
     refetch?: () => Promise<BookProps[]>
 }
 
@@ -130,9 +132,11 @@ export default function Explore() {
                 }
             >
                 <InfoContainer>
-                    <ReadLabel>
-                        <strong>Read</strong>
-                    </ReadLabel>
+                    {book.read && (
+                        <ReadLabel>
+                            <strong>Read</strong>
+                        </ReadLabel>
+                    )}
                     <Image
                         src={book.cover_url}
                         alt=''
@@ -142,7 +146,7 @@ export default function Explore() {
                     <BookInfo>
                         <strong>{book.name}</strong>
                         <span>{book.author}</span>
-                        <StarRater rate={3} />
+                        <StarRater rate={book.ratingAverage} />
                     </BookInfo>
                 </InfoContainer>
             </Book>

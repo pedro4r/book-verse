@@ -40,6 +40,8 @@ export function Sidebar() {
             await router.push('/home').then(() => {
                 signOut()
             })
+        } else {
+            signOut()
         }
     }
 
@@ -80,7 +82,10 @@ export function Sidebar() {
             </MenuOptions>
             {isSignedIn ? (
                 <LoginButton onClick={() => handleSignOut()} color='red'>
-                    <Avatar avatarSize={'sm'} />
+                    <Avatar
+                        avatarUrl={session.data.user.avatar_url}
+                        avatarSize={'sm'}
+                    />
                     <span>{userName}</span>
                     <SignOut size={24} />
                 </LoginButton>

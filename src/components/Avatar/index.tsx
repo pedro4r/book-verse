@@ -19,8 +19,9 @@ export function Avatar({ avatarSize = 'md', avatarUrl, altName }: AvatarProps) {
                 <Image
                     src={avatarUrl}
                     alt={altName ?? ''}
-                    height={32}
-                    width={32}
+                    height={300}
+                    width={300}
+                    quality={100}
                 />
             </AvatarContainer>
         )

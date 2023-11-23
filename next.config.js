@@ -5,6 +5,7 @@ const nextConfig = {
         domains: [
             'localhost',
             'aws-book-verse-bucket.s3.us-east-1.amazonaws.com',
+            'lh3.googleusercontent.com',
         ],
         remotePatterns: [
             {

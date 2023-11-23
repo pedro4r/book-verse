@@ -89,16 +89,6 @@ export default async function handler(
 
     const books = await Promise.all(
         response.map(async (book) => {
-            const reviews = await prisma.reviews.findMany({
-                where: { book_id: book.id },
-            })
-
-            const ratingSum = reviews.reduce((acc, review) => {
-                return (acc += review.rating)
-            }, 0)
-
-            const ratingAverage = Math.ceil(ratingSum / reviews.length)
-
             const isBookReviewed = await prisma.reviews.findFirst({
                 where: {
                     book_id: book.id,
@@ -123,7 +113,6 @@ export default async function handler(
                 cover_url: url,
                 total_pages: book.total_pages,
                 category: book.category,
-                ratingAverage,
                 read: session ? hasBeenReviewed : false,
             }
         })
