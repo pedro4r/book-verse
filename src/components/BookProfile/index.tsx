@@ -263,7 +263,6 @@ export function BookProfile() {
                     {bookInfo.reviews.map((review) => {
                         dayjs.extend(relativeTime)
                         const createdAt = dayjs(review.created_at).fromNow()
-                        console.log(createdAt)
                         return (
                             <ReviewCard
                                 commentFromTheUserInSession={true}

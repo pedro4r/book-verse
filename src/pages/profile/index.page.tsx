@@ -44,6 +44,15 @@ interface UserProfileInterface {
     mostCategoryRead: string
 }
 
+interface UserActivity {
+    id: string
+    name: string
+    author: string
+    cover_url: string
+    comment: string
+    rating: 0 | 1 | 2 | 3 | 4 | 5
+}
+
 const searchFormSchema = z.object({
     query: z.string(),
 })
@@ -58,11 +67,9 @@ export default function Profile() {
         totalOfAuthorsRead: 0,
         mostCategoryRead: '',
     })
+    const [userActivity, setUserActivity] = useState<UserActivity[]>([])
 
-    const dateJoined = dayjs(userInfo.created_at)
-    const yearJoined = dateJoined.format('YYYY')
-    console.log(yearJoined)
-    // const memberSince = dateJoined.from(dayjs(), true)
+    const yearJoined = dayjs(userInfo.created_at).format('YYYY')
 
     const session = useSession()
 
@@ -88,8 +95,10 @@ export default function Profile() {
                         category: 'all',
                     },
                 })
+
                 const { data } = response
-                setUserInfo(data)
+                setUserInfo(data.bio)
+                setUserActivity(data.activity)
             } catch (error) {
                 console.error('Error:', error)
             }
@@ -117,58 +126,29 @@ export default function Profile() {
                     <MagnifyingGlass size={20} />
                 </FormContainer>
 
-                <ReviewContainer>
-                    <span>2 days ago</span>
-                    <ReviewBody>
-                        <Header>
-                            <Image src={hobbit} alt='' />
-                            <TitleInfo>
-                                <strong>The Hobbit</strong>
-                                <span>J.R.R. Tolkien</span>
-                                <StarRater rate={3} />
-                            </TitleInfo>
-                        </Header>
-                        <p>
-                            Tristique massa sed enim lacinia odio. Congue ut
-                            faucibus nunc vitae non. Nam feugiat vel morbi
-                            viverra vitae mi. Vitae fringilla ut et suspendisse
-                            enim suspendisse vitae. Leo non eget lacus
-                            sollicitudin tristique pretium quam. Mollis et
-                            luctus amet sed convallis varius massa sagittis.
-                            Proin sed proin at leo quis ac sem. Nam donec
-                            accumsan curabitur amet tortor quam sit. Bibendum
-                            enim sit dui lorem urna amet elit rhoncus ut.
-                            Aliquet euismod vitae ut turpis. Aliquam amet
-                            integer pellentesque.
-                        </p>
-                    </ReviewBody>
-                </ReviewContainer>
-                <ReviewContainer>
-                    <span>2 days ago</span>
-                    <ReviewBody>
-                        <Header>
-                            <Image src={hobbit} alt='' />
-                            <TitleInfo>
-                                <strong>The Hobbit</strong>
-                                <span>J.R.R. Tolkien</span>
-                                <StarRater rate={3} />
-                            </TitleInfo>
-                        </Header>
-                        <p>
-                            Tristique massa sed enim lacinia odio. Congue ut
-                            faucibus nunc vitae non. Nam feugiat vel morbi
-                            viverra vitae mi. Vitae fringilla ut et suspendisse
-                            enim suspendisse vitae. Leo non eget lacus
-                            sollicitudin tristique pretium quam. Mollis et
-                            luctus amet sed convallis varius massa sagittis.
-                            Proin sed proin at leo quis ac sem. Nam donec
-                            accumsan curabitur amet tortor quam sit. Bibendum
-                            enim sit dui lorem urna amet elit rhoncus ut.
-                            Aliquet euismod vitae ut turpis. Aliquam amet
-                            integer pellentesque.
-                        </p>
-                    </ReviewBody>
-                </ReviewContainer>
+                {userActivity.map((review) => {
+                    return (
+                        <ReviewContainer key={review.id}>
+                            <span>2 days ago</span>
+                            <ReviewBody>
+                                <Header>
+                                    <Image
+                                        src={review.cover_url}
+                                        alt=''
+                                        width={300}
+                                        height={300}
+                                    />
+                                    <TitleInfo>
+                                        <strong>{review.name}</strong>
+                                        <span>{review.author}</span>
+                                        <StarRater rate={review.rating} />
+                                    </TitleInfo>
+                                </Header>
+                                <p>{review.comment}</p>
+                            </ReviewBody>
+                        </ReviewContainer>
+                    )
+                })}
             </Reviews>
             <UserInfoContainer>
                 <ProfileInfo>

@@ -6,6 +6,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
 import { UserSessionInterface, userBio } from './use-bio'
+import { userActivity } from './user-activity'
 
 dotenv.config()
 const bucketname = process.env.BUCKET_NAME || 'defaultBucketName'
@@ -46,7 +47,13 @@ export default async function handler(
     }
 
     const { user } = session
-    const response = await userBio(user as UserSessionInterface)
+    const bio = await userBio(user as UserSessionInterface)
+    const activity = await userActivity(user as UserSessionInterface)
+
+    const response = {
+        bio,
+        activity,
+    }
 
     return res.json(response)
 }
