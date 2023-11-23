@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
+import { UserSessionInterface, userBio } from './use-bio'
 
 dotenv.config()
 const bucketname = process.env.BUCKET_NAME || 'defaultBucketName'
@@ -44,66 +45,8 @@ export default async function handler(
         return res.status(401).end()
     }
 
-    const userInfo = await prisma.user.findUnique({
-        where: {
-            id: String(session?.user.id),
-        },
-    })
-
-    const userBooks = await prisma.reviews.findMany({
-        where: {
-            user_id: String(session?.user.id),
-        },
-        select: {
-            books: {
-                select: {
-                    id: true,
-                    name: true,
-                    author: true,
-                    summary: true,
-                    cover_url: true,
-                    total_pages: true,
-                    category: true,
-                },
-            },
-        },
-    })
-
-    const totalPagesRead = userBooks.reduce((acc, obj) => {
-        return (acc += obj.books.total_pages)
-    }, 0)
-
-    const totalOfAuthorsRead = userBooks.reduce((acc: string[], obj) => {
-        const author = obj.books.author
-        if (!acc.includes(author)) {
-            acc.push(author)
-        }
-        return acc
-    }, [])
-
-    interface CategoryCount {
-        [category: string]: number
-    }
-
-    const categoriesRead = userBooks.reduce((acc: CategoryCount, obj) => {
-        const category = obj.books.category
-        acc[category] = (acc[category] || 0) + 1
-        return acc
-    }, {})
-
-    const categoriesKeysArray = Object.keys(categoriesRead)
-
-    const mostCategoryRead = categoriesKeysArray.reduce((max, category) =>
-        categoriesRead[category] > categoriesRead[max] ? category : max
-    )
-
-    const response = {
-        created_at: userInfo?.created_at,
-        numberOfBooksRead: userBooks.length,
-        totalPagesRead,
-        totalOfAuthorsRead: totalOfAuthorsRead.length,
-        mostCategoryRead,
-    }
+    const { user } = session
+    const response = await userBio(user as UserSessionInterface)
 
     return res.json(response)
 }
