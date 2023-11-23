@@ -183,6 +183,7 @@ export const Stats = styled('div', {
 
     strong: {
         fontSize: '$lg',
+        textTransform: 'capitalize',
     },
 
     span: {

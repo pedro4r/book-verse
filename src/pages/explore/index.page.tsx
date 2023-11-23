@@ -36,7 +36,7 @@ interface BookProps {
     category: string
     created_at: Date
     read?: boolean
-    ratingAverage: number
+    ratingAverage: 0 | 1 | 2 | 3 | 4 | 5
     refetch?: () => Promise<BookProps[]>
 }
 

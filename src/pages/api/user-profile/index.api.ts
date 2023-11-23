@@ -40,83 +40,70 @@ export default async function handler(
         buildNextAuthOptions(req, res)
     )
 
-    const { category, textInput }: BookSearchInterface = req.query
-
-    let response = []
-
-    if (category === 'all' && textInput === '') {
-        response = await prisma.books.findMany()
-    } else if (textInput !== '' && category === 'all') {
-        response = await prisma.books.findMany({
-            where: {
-                OR: [
-                    {
-                        name: {
-                            contains: textInput,
-                        },
-                    },
-                    {
-                        author: {
-                            contains: textInput,
-                        },
-                    },
-                ],
-            },
-        })
-    } else if (textInput !== '') {
-        response = await prisma.books.findMany({
-            where: {
-                category,
-                OR: [
-                    {
-                        name: {
-                            contains: textInput,
-                        },
-                    },
-                    {
-                        author: {
-                            contains: textInput,
-                        },
-                    },
-                ],
-            },
-        })
-    } else {
-        response = await prisma.books.findMany({
-            where: { category },
-        })
+    if (!session) {
+        return res.status(401).end()
     }
 
-    const books = await Promise.all(
-        response.map(async (book) => {
-            const isBookReviewed = await prisma.reviews.findFirst({
-                where: {
-                    book_id: book.id,
-                    user_id: String(session?.user.id),
+    const userInfo = await prisma.user.findUnique({
+        where: {
+            id: String(session?.user.id),
+        },
+    })
+
+    const userBooks = await prisma.reviews.findMany({
+        where: {
+            user_id: String(session?.user.id),
+        },
+        select: {
+            books: {
+                select: {
+                    id: true,
+                    name: true,
+                    author: true,
+                    summary: true,
+                    cover_url: true,
+                    total_pages: true,
+                    category: true,
                 },
-            })
+            },
+        },
+    })
 
-            const hasBeenReviewed = !!isBookReviewed
+    const totalPagesRead = userBooks.reduce((acc, obj) => {
+        return (acc += obj.books.total_pages)
+    }, 0)
 
-            const params = {
-                Bucket: bucketname,
-                Key: book.id + '.jpg',
-            }
+    const totalOfAuthorsRead = userBooks.reduce((acc: string[], obj) => {
+        const author = obj.books.author
+        if (!acc.includes(author)) {
+            acc.push(author)
+        }
+        return acc
+    }, [])
 
-            const command = new GetObjectCommand(params)
-            const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
-            return {
-                id: book.id,
-                name: book.name,
-                author: book.author,
-                summary: book.summary,
-                cover_url: url,
-                total_pages: book.total_pages,
-                category: book.category,
-                read: session ? hasBeenReviewed : false,
-            }
-        })
+    interface CategoryCount {
+        [category: string]: number
+    }
+
+    const categoriesRead = userBooks.reduce((acc: CategoryCount, obj) => {
+        const category = obj.books.category
+        acc[category] = (acc[category] || 0) + 1
+        return acc
+    }, {})
+
+    const categoriesKeysArray = Object.keys(categoriesRead)
+
+    const mostCategoryRead = categoriesKeysArray.reduce((max, category) =>
+        categoriesRead[category] > categoriesRead[max] ? category : max
     )
 
-    return res.json(books)
+    const response = {
+        created_at: userInfo?.created_at,
+        numberOfBooksRead: userBooks.length,
+        totalPagesRead,
+        totalOfAuthorsRead: totalOfAuthorsRead.length,
+        mostCategoryRead,
+    }
+
+    return res.json(response)
 }
