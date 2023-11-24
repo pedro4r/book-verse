@@ -34,9 +34,11 @@ export async function userActivity(user: UserSessionInterface): Promise<any> {
         where: {
             user_id: String(user.id),
         },
+        orderBy: { created_at: 'desc' },
         select: {
             comment: true,
             rating: true,
+            created_at: true,
             books: {
                 select: {
                     id: true,
@@ -64,6 +66,7 @@ export async function userActivity(user: UserSessionInterface): Promise<any> {
                 cover_url: url,
                 comment: obj.comment,
                 rating: obj.rating,
+                created_at: obj.created_at,
             }
         })
     )

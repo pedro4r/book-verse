@@ -51,10 +51,11 @@ interface UserActivity {
     cover_url: string
     comment: string
     rating: 0 | 1 | 2 | 3 | 4 | 5
+    created_at: Date
 }
 
 const searchFormSchema = z.object({
-    query: z.string(),
+    textInput: z.string(),
 })
 
 type SearchFormInput = z.infer<typeof searchFormSchema>
@@ -76,15 +77,9 @@ export default function Profile() {
     const { register, handleSubmit } = useForm<SearchFormInput>({
         resolver: zodResolver(searchFormSchema),
         defaultValues: {
-            query: '',
+            textInput: '',
         },
     })
-
-    function handleSearch(data: SearchFormInput) {
-        const searchQuery = {
-            data: data.query,
-        }
-    }
 
     useEffect(() => {
         const fetchInitialBooks = async () => {
@@ -107,6 +102,41 @@ export default function Profile() {
         fetchInitialBooks()
     }, [])
 
+    const handleFilterActivity = async (data: SearchFormInput) => {
+        const filter = {
+            textInput: data.textInput,
+            userId: session.data?.user.id,
+        }
+        if (filter.textInput === '') {
+            try {
+                const response = await api.get('/user-profile', {
+                    params: {
+                        textInput: '',
+                        category: 'all',
+                    },
+                })
+                const { data } = response
+                setUserActivity(data.activity)
+            } catch (error) {
+                console.error('Error:', error)
+            }
+        } else {
+            if (data) {
+                try {
+                    const response = await api.get('/filter-user-activity', {
+                        params: filter,
+                    })
+
+                    const { data } = response
+                    setUserActivity([...data])
+                    return data
+                } catch (error) {
+                    console.error('Error:', error)
+                }
+            }
+        }
+    }
+
     return (
         <Container>
             <Sidebar />
@@ -116,20 +146,24 @@ export default function Profile() {
                     <h2>Profile</h2>
                 </PageTitle>
                 <FormContainer
-                    onSubmit={handleSubmit((data) => handleSearch(data))}
+                    onSubmit={handleSubmit((data) =>
+                        handleFilterActivity(data)
+                    )}
                 >
                     <input
                         type='text'
                         placeholder='Search Content'
-                        {...register('query')}
+                        {...register('textInput')}
                     />
                     <MagnifyingGlass size={20} />
                 </FormContainer>
 
                 {userActivity.map((review) => {
+                    dayjs.extend(relativeTime)
+                    const createdAt = dayjs(review.created_at).fromNow()
                     return (
                         <ReviewContainer key={review.id}>
-                            <span>2 days ago</span>
+                            <span>{createdAt}</span>
                             <ReviewBody>
                                 <Header>
                                     <Image
