@@ -86,7 +86,7 @@ export const Body = styled('div', {
 
     img: {
         width: '6.75rem',
-        height: 'auto',
+        maxHeight: '9.5rem',
     },
 })
 

@@ -216,7 +216,10 @@ export function BookProfile() {
                         open={isNewReviewContainerOpen}
                     >
                         <NewReviewHeader>
-                            <Avatar avatarSize='sm' />
+                            <Avatar
+                                avatarSize='sm'
+                                avatarUrl={session.data?.user.avatar_url}
+                            />
                             <strong>{session.data?.user.name}</strong>
                             <Controller
                                 name='stars'
