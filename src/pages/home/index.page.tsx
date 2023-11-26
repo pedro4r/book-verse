@@ -23,6 +23,7 @@ import { api } from '../../lib/axios'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ParagraphControlled } from '../../components/ParagraphWithLengthControl'
+import { BookImage } from '../../components/BookImage'
 
 interface ReviewListInterface {
     id: string
@@ -104,11 +105,10 @@ export default function Home() {
                                     <StarRater rate={review.rating} />
                                 </Header>
                                 <Body>
-                                    <Image
-                                        src={review.cover_url}
-                                        width={300}
-                                        height={300}
-                                        alt={review.name}
+                                    <BookImage
+                                        height={152}
+                                        width={108}
+                                        imgUrl={review.cover_url}
                                     />
                                     <BookInfo>
                                         <strong>{review.author}</strong>
@@ -139,11 +139,10 @@ export default function Home() {
                         }
                         return (
                             <Book key={book.id}>
-                                <Image
-                                    src={book.cover_url}
-                                    height={300}
-                                    width={300}
-                                    alt={book.name}
+                                <BookImage
+                                    height={94}
+                                    width={64}
+                                    imgUrl={book.cover_url}
                                 />
                                 <PopularBookInfo>
                                     <strong>{book.name}</strong>

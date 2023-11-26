@@ -83,14 +83,10 @@ export const Body = styled('div', {
     display: 'flex',
     flexDirection: 'row',
     gap: '$4',
-
-    img: {
-        width: '6.75rem',
-        maxHeight: '9.5rem',
-    },
 })
 
 export const BookInfo = styled('div', {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     // justifyContent: 'center',
@@ -144,11 +140,6 @@ export const Book = styled('button', {
 
     borderRadius: '8px',
     backgroundColor: '$gray700',
-
-    img: {
-        height: '5.8rem',
-        width: '4rem',
-    },
 })
 
 export const PopularBookInfo = styled('div', {

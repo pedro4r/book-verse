@@ -35,6 +35,7 @@ import { api } from '../../lib/axios'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { BookImage } from '../../components/BookImage'
 
 interface UserProfileInterface {
     created_at: Date
@@ -166,11 +167,10 @@ export default function Profile() {
                             <span>{createdAt}</span>
                             <ReviewBody>
                                 <Header>
-                                    <Image
-                                        src={review.cover_url}
-                                        alt=''
-                                        width={300}
-                                        height={300}
+                                    <BookImage
+                                        height={134}
+                                        width={98}
+                                        imgUrl={review.cover_url}
                                     />
                                     <TitleInfo>
                                         <strong>{review.name}</strong>

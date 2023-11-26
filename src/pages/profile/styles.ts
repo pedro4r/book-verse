@@ -108,13 +108,10 @@ export const Header = styled('div', {
     flexDirection: 'row',
     gap: '$6',
     width: '100%',
-    img: {
-        width: '6.75rem',
-        height: 'auto',
-    },
 })
 
 export const TitleInfo = styled('div', {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     // gap: '$6',
@@ -217,11 +214,6 @@ export const Book = styled('div', {
 
     borderRadius: '8px',
     backgroundColor: '$gray700',
-
-    img: {
-        height: '5.8rem',
-        width: '4rem',
-    },
 })
 
 export const PopularBookInfo = styled('div', {

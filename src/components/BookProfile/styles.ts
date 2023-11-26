@@ -64,15 +64,8 @@ export const BookCard = styled('div', {
 export const BookDetail = styled('div', {
     display: 'flex',
     flexDirection: 'row',
-
     padding: '$5',
-
     gap: '$4',
-
-    img: {
-        height: '15rem',
-        width: '10rem',
-    },
 })
 
 export const CardInfo = styled('div', {

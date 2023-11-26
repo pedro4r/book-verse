@@ -25,6 +25,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { api } from '../../lib/axios'
 import { v4 as uuidv4 } from 'uuid'
+import { BookImage } from '../../components/BookImage'
 
 interface BookProps {
     id: string
@@ -137,12 +138,13 @@ export default function Explore() {
                             <strong>Read</strong>
                         </ReadLabel>
                     )}
-                    <Image
-                        src={book.cover_url}
-                        alt=''
-                        width={150}
-                        height={150}
+
+                    <BookImage
+                        width={108}
+                        height={152}
+                        imgUrl={book.cover_url}
                     />
+
                     <BookInfo>
                         <strong>{book.name}</strong>
                         <span>{book.author}</span>

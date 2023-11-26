@@ -32,6 +32,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { api } from '../../lib/axios'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { BookImage } from '../BookImage'
 
 interface BookInfoInterface {
     name: string
@@ -164,11 +165,10 @@ export function BookProfile() {
                 </CloseButton>
                 <BookCard>
                     <BookDetail>
-                        <Image
-                            src={bookProfileState.imagUrl}
-                            alt=''
-                            width={250}
-                            height={250}
+                        <BookImage
+                            width={171.65}
+                            height={242}
+                            imgUrl={bookProfileState.imagUrl}
                         />
                         <Info>
                             <strong>{bookInfo.name}</strong>

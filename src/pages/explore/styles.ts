@@ -65,15 +65,8 @@ export const BookCard = styled('div', {
 export const BookDetail = styled('div', {
     display: 'flex',
     flexDirection: 'row',
-
     padding: '$5',
-
     gap: '$4',
-
-    img: {
-        height: '15rem',
-        width: '10rem',
-    },
 })
 
 export const CardInfo = styled('div', {
@@ -449,6 +442,7 @@ export const RadioGroupItem = styled(RadioGroup.Item, {
     color: '$purple100',
 
     backgroundColor: 'transparent',
+    cursor: 'pointer',
 
     '&[data-state="checked"]': {
         backgroundColor: '$purple200',
@@ -492,15 +486,8 @@ export const InfoContainer = styled('div', {
     position: 'relative',
     display: 'flex',
     flexDirection: 'row',
-
     padding: '$5',
-
     gap: '$4',
-
-    img: {
-        height: '9.5rem',
-        width: '6.75rem',
-    },
 })
 
 export const ReadLabel = styled('div', {
