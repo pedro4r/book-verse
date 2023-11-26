@@ -58,7 +58,7 @@ export default async function handler(
         },
     })
 
-    const activity = await Promise.all(
+    const reviews = await Promise.all(
         recentReviews.map(async (obj) => {
             const params = {
                 Bucket: bucketname,
@@ -68,7 +68,7 @@ export default async function handler(
             const command = new GetObjectCommand(params)
             const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
 
-            return {
+            const reviews = {
                 id: obj.books.id,
                 name: obj.books.name,
                 author: obj.books.author,
@@ -79,8 +79,66 @@ export default async function handler(
                 userName: obj.user.name,
                 userAvatarUrl: obj.user.avatar_url,
             }
+
+            return reviews
         })
     )
 
-    return res.json(activity)
+    const mostReviewedBooks = await prisma.reviews.groupBy({
+        by: ['book_id'],
+        _count: {
+            book_id: true,
+        },
+        orderBy: {
+            _count: {
+                book_id: 'desc',
+            },
+        },
+    })
+
+    const popularBooks = await Promise.all(
+        mostReviewedBooks.map(async (book) => {
+            const reviewForRatingCalc = await prisma.reviews.findMany({
+                where: { book_id: book.book_id },
+                select: {
+                    rating: true,
+                },
+            })
+
+            const ratingSum = reviewForRatingCalc.reduce((acc, review) => {
+                return (acc += review.rating)
+            }, 0)
+
+            const ratingAverage = Math.ceil(
+                ratingSum / reviewForRatingCalc.length
+            )
+
+            const bookInfo = await prisma.books.findUnique({
+                where: { id: book.book_id },
+            })
+
+            const params = {
+                Bucket: bucketname,
+                Key: book.book_id + '.jpg',
+            }
+
+            const command = new GetObjectCommand(params)
+            const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
+
+            return {
+                id: book.book_id,
+                name: bookInfo?.name,
+                author: bookInfo?.author,
+                cover_url: url,
+                ratingAverage,
+            }
+        })
+    )
+
+    const response = {
+        reviews,
+        popularBooks,
+    }
+
+    return res.json(response)
 }

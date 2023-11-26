@@ -93,7 +93,7 @@ export const Body = styled('div', {
 export const BookInfo = styled('div', {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     height: 'auto',
 
     strong: {
@@ -106,17 +106,7 @@ export const BookInfo = styled('div', {
         color: '$gray400',
     },
 
-    p: {
-        fontSize: '$sm',
-        marginTop: 'auto',
-        color: '$gray300',
-
-        a: {
-            all: 'unset',
-            fontWeight: 'bold',
-            color: '$purple100',
-        },
-    },
+    div: { marginTop: '$6' },
 })
 
 export const PopularBooks = styled('div', {
@@ -131,10 +121,14 @@ export const TitleContainer = styled('div', {
 
     marginTop: '4.5rem',
 
-    a: {
+    button: {
         all: 'unset',
+        cursor: 'pointer',
         fontWeight: 'bold',
         color: '$purple100',
+        '&:hover': {
+            color: '$gray400',
+        },
     },
 })
 

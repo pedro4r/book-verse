@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react'
 import { api } from '../../lib/axios'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { ParagraphControlled } from '../../components/ParagraphWithLengthControl'
 
 interface ReviewListInterface {
     id: string
@@ -35,8 +36,20 @@ interface ReviewListInterface {
     userAvatarUrl: string
 }
 
+interface PopularBooksInterface {
+    id: string
+    name: string
+    author: string
+    cover_url: string
+    ratingAverage: 0 | 1 | 2 | 3 | 4 | 5 | undefined
+}
+
 export default function Home() {
     const [reviewsList, setReviewsList] = useState<ReviewListInterface[]>()
+    const [popularBooksList, setPopularBooksList] =
+        useState<PopularBooksInterface[]>()
+
+    const [togglePopularBooks, setTogglePopularBooks] = useState(false)
 
     useEffect(() => {
         const fetchInitialBooks = async () => {
@@ -48,7 +61,8 @@ export default function Home() {
                     },
                 })
                 const { data } = response
-                setReviewsList([...data])
+                setReviewsList([...data.reviews])
+                setPopularBooksList([...data.popularBooks])
             } catch (error) {
                 console.error('Error:', error)
             }
@@ -56,6 +70,12 @@ export default function Home() {
 
         fetchInitialBooks()
     }, [])
+
+    function togglePopularBooksButton() {
+        console.log('oi')
+        setTogglePopularBooks(!togglePopularBooks)
+    }
+
     return (
         <>
             <Container>
@@ -93,12 +113,9 @@ export default function Home() {
                                     <BookInfo>
                                         <strong>{review.author}</strong>
                                         <span>{review.name}</span>
-                                        <p>
-                                            {review.comment}{' '}
-                                            <a href='#' title=''>
-                                                read more
-                                            </a>
-                                        </p>
+                                        <ParagraphControlled
+                                            textParagraph={review.comment}
+                                        />
                                     </BookInfo>
                                 </Body>
                             </Reviews>
@@ -108,24 +125,34 @@ export default function Home() {
                 <PopularBooks>
                     <TitleContainer>
                         <span>Popular Books</span>
-                        <a href='http://'>See more</a>
+                        <button
+                            onClick={() => {
+                                togglePopularBooksButton()
+                            }}
+                        >
+                            {togglePopularBooks ? 'See less' : 'See more'}
+                        </button>
                     </TitleContainer>
-                    <Book>
-                        <Image src={hobbit} priority alt='' />
-                        <PopularBookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <StarRater rate={1} />
-                        </PopularBookInfo>
-                    </Book>
-                    <Book>
-                        <Image src={hobbit} priority alt='' />
-                        <PopularBookInfo>
-                            <strong>The Hobbit</strong>
-                            <span>J.R.R. Tolkien</span>
-                            <StarRater rate={1} />
-                        </PopularBookInfo>
-                    </Book>
+                    {popularBooksList?.map((book, i) => {
+                        if (i === 3 && !togglePopularBooks) {
+                            return null
+                        }
+                        return (
+                            <Book key={book.id}>
+                                <Image
+                                    src={book.cover_url}
+                                    height={300}
+                                    width={300}
+                                    alt={book.name}
+                                />
+                                <PopularBookInfo>
+                                    <strong>{book.name}</strong>
+                                    <span>{book.author}</span>
+                                    <StarRater rate={book.ratingAverage} />
+                                </PopularBookInfo>
+                            </Book>
+                        )
+                    })}
                 </PopularBooks>
             </Container>
         </>
