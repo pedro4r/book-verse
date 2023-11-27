@@ -17,6 +17,13 @@ export default function Register() {
         await signIn('google', { callbackUrl: '/home' })
     }
 
+    async function handleConnectGithub() {
+        if (session.status !== 'unauthenticated') {
+            await signOut()
+        }
+        await signIn('github', { callbackUrl: '/home' })
+    }
+
     async function handleOpenHomePage() {
         await router.push('/home')
     }
@@ -32,11 +39,19 @@ export default function Register() {
                     <span>Sign up or access as guest</span>
                 </div>
 
-                <button onClick={handleConnectGoogle}>
+                <button
+                    onClick={() => {
+                        handleConnectGoogle()
+                    }}
+                >
                     <Image src={googleIcon} priority alt='Book verse logo' />
                     <strong>Sign up with Google</strong>
                 </button>
-                <button>
+                <button
+                    onClick={() => {
+                        handleConnectGithub()
+                    }}
+                >
                     <Image src={githubIcon} alt='Book verse logo' />
                     <strong>Sign up with Github</strong>
                 </button>

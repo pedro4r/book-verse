@@ -4,6 +4,7 @@ import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google'
 import { NextAuthOptions } from 'next-auth'
 import { PrismaAdapter } from '../../../lib/auth/prisma-adapter'
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
+import GitHubProvider, { GithubProfile } from 'next-auth/providers/github'
 
 export function buildNextAuthOptions(
     req: NextApiRequest | NextPageContext['req'],
@@ -22,6 +23,27 @@ export function buildNextAuthOptions(
                         name: profile.name,
                         email: profile.email,
                         avatar_url: profile.picture,
+                    }
+                },
+            }),
+            GitHubProvider({
+                clientId: process.env.GITHUB_CLIENT_ID ?? '',
+                clientSecret: process.env.GITHUB_CLIENT_SECRET ?? '',
+                allowDangerousEmailAccountLinking: true,
+                authorization: {
+                    params: {
+                        prompt: 'consent',
+                        access_type: 'offline',
+                        response_type: 'code',
+                        scope: 'read:user,user:email',
+                    },
+                },
+                profile: (profile: GithubProfile) => {
+                    return {
+                        id: profile.id.toString(),
+                        name: profile.name ?? profile.login,
+                        email: profile.email ?? '',
+                        avatar_url: profile.avatar_url,
                     }
                 },
             }),
