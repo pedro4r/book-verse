@@ -60,7 +60,6 @@ model Books {
   name        String
   author      String
   summary     String
-  cover_url   String
   total_pages Int
   category    String
 
