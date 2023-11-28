@@ -30,12 +30,12 @@ model Account {
   type                String
   provider            String
   provider_account_id String
-  refresh_token       String?
-  access_token        String?
+  refresh_token       String? @db.Text
+  access_token        String? @db.Text
   expires_at          Int?
   token_type          String?
   scope               String?
-  id_token            String?
+  id_token            String? @db.Text
   session_state       String?
   user                User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
@@ -59,7 +59,7 @@ model Books {
   id          String @id @default(uuid())
   name        String
   author      String
-  summary     String
+  summary     String @db.Text
   total_pages Int
   category    String
 
@@ -72,7 +72,7 @@ model Books {
 model Reviews {
   id      String @id @default(uuid())
   rating  Int
-  comment String
+  comment String @db.Text
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
