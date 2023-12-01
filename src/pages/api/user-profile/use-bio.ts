@@ -71,8 +71,10 @@ export async function userBio(
 
     const categoriesKeysArray = Object.keys(categoriesRead)
 
-    const mostCategoryRead = categoriesKeysArray.reduce((max, category) =>
-        categoriesRead[category] > categoriesRead[max] ? category : max
+    const mostCategoryRead = categoriesKeysArray.reduce(
+        (max, category) =>
+            categoriesRead[category] > categoriesRead[max] ? category : max,
+        categoriesKeysArray[0]
     )
 
     const response = {
