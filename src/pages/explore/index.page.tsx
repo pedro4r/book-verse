@@ -15,7 +15,6 @@ import {
     ReadLabel,
     RadioGroupIndicator,
 } from './styles'
-import Image from 'next/image'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { StarRater } from '../../components/StarRater'
 import { BookProfile } from '../../components/BookProfile'
