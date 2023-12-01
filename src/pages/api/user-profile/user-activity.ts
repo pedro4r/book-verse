@@ -44,7 +44,6 @@ export async function userActivity(user: UserSessionInterface): Promise<any> {
                     id: true,
                     name: true,
                     author: true,
-                    cover_url: true,
                 },
             },
         },
