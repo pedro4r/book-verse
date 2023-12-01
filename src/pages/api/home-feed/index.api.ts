@@ -46,7 +46,6 @@ export default async function handler(
                     id: true,
                     name: true,
                     author: true,
-                    cover_url: true,
                 },
             },
             user: {

@@ -40,7 +40,6 @@ export async function userBio(
                     name: true,
                     author: true,
                     summary: true,
-                    cover_url: true,
                     total_pages: true,
                     category: true,
                 },
