@@ -1,9 +1,9 @@
-import { ChartLineUp, Star } from 'phosphor-react'
-import { Sidebar } from '../../components/Sidebar'
+import { ChartLineUp, List } from 'phosphor-react'
 import {
     Body,
     Book,
     BookInfo,
+    BooksContainer,
     Container,
     Feed,
     Header,
@@ -14,8 +14,7 @@ import {
     Reviews,
     TitleContainer,
 } from './styles'
-import Image from 'next/image'
-import hobbit from '../../../public/hobbit.png'
+
 import { Avatar } from '../../components/Avatar'
 import { StarRater } from '../../components/StarRater'
 import { useEffect, useState } from 'react'
@@ -24,6 +23,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ParagraphControlled } from '../../components/ParagraphWithLengthControl'
 import { BookImage } from '../../components/BookImage'
+import { ToggleMenu } from '../../components/ToggleMenu'
 
 interface ReviewListInterface {
     id: string
@@ -73,66 +73,65 @@ export default function Home() {
     }, [])
 
     function togglePopularBooksButton() {
-        console.log('oi')
         setTogglePopularBooks(!togglePopularBooks)
     }
 
     return (
-        <>
-            <Container>
-                <Sidebar />
-                <Feed>
-                    <PageTitle>
-                        <ChartLineUp size={32} />
-                        <h2>Home</h2>
-                    </PageTitle>
-                    <span>Recent Reviews</span>
+        <Container>
+            <ToggleMenu />
+            <Feed>
+                <PageTitle>
+                    <ChartLineUp size={32} />
+                    <h2>Home</h2>
+                </PageTitle>
+                <span>Recent Reviews</span>
 
-                    {reviewsList?.map((review) => {
-                        dayjs.extend(relativeTime)
-                        const createdAt = dayjs(review.created_at).fromNow()
-                        return (
-                            <Reviews key={review.id}>
-                                <Header>
-                                    <Avatar
-                                        avatarUrl={review.userAvatarUrl}
-                                        avatarSize='sm'
+                {reviewsList?.map((review) => {
+                    dayjs.extend(relativeTime)
+                    const createdAt = dayjs(review.created_at).fromNow()
+                    return (
+                        <Reviews key={review.id}>
+                            <Header>
+                                <Avatar
+                                    avatarUrl={review.userAvatarUrl}
+                                    avatarSize='sm'
+                                />
+                                <InfoContainer>
+                                    <strong>{review.userName}</strong>
+                                    <span>{createdAt}</span>
+                                </InfoContainer>
+                                <StarRater rate={review.rating} />
+                            </Header>
+                            <Body>
+                                <BookImage
+                                    height={152}
+                                    width={108}
+                                    imgUrl={review.cover_url}
+                                />
+                                <BookInfo>
+                                    <strong>{review.author}</strong>
+                                    <span>{review.name}</span>
+                                    <ParagraphControlled
+                                        textParagraph={review.comment}
                                     />
-                                    <InfoContainer>
-                                        <strong>{review.userName}</strong>
-                                        <span>{createdAt}</span>
-                                    </InfoContainer>
-                                    <StarRater rate={review.rating} />
-                                </Header>
-                                <Body>
-                                    <BookImage
-                                        height={152}
-                                        width={108}
-                                        imgUrl={review.cover_url}
-                                    />
-                                    <BookInfo>
-                                        <strong>{review.author}</strong>
-                                        <span>{review.name}</span>
-                                        <ParagraphControlled
-                                            textParagraph={review.comment}
-                                        />
-                                    </BookInfo>
-                                </Body>
-                            </Reviews>
-                        )
-                    })}
-                </Feed>
-                <PopularBooks>
-                    <TitleContainer>
-                        <span>Popular Books</span>
-                        <button
-                            onClick={() => {
-                                togglePopularBooksButton()
-                            }}
-                        >
-                            {togglePopularBooks ? 'See less' : 'See more'}
-                        </button>
-                    </TitleContainer>
+                                </BookInfo>
+                            </Body>
+                        </Reviews>
+                    )
+                })}
+            </Feed>
+            <PopularBooks>
+                <TitleContainer>
+                    <span>Popular Books</span>
+                    <button
+                        onClick={() => {
+                            togglePopularBooksButton()
+                        }}
+                    >
+                        {togglePopularBooks ? 'See less' : 'See more'}
+                    </button>
+                </TitleContainer>
+                <BooksContainer>
                     {popularBooksList?.map((book, i) => {
                         if (i === 3 && !togglePopularBooks) {
                             return null
@@ -140,8 +139,8 @@ export default function Home() {
                         return (
                             <Book key={book.id}>
                                 <BookImage
-                                    height={94}
-                                    width={64}
+                                    height={84}
+                                    width={54}
                                     imgUrl={book.cover_url}
                                 />
                                 <PopularBookInfo>
@@ -152,8 +151,8 @@ export default function Home() {
                             </Book>
                         )
                     })}
-                </PopularBooks>
-            </Container>
-        </>
+                </BooksContainer>
+            </PopularBooks>
+        </Container>
     )
 }

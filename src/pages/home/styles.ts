@@ -1,34 +1,33 @@
 import { styled } from '../../styles'
 
-export const Container = styled('main', {
-    display: 'grid',
-    gridTemplateColumns: '6fr 3fr',
-    gap: '4rem',
-    height: '100vh',
+export const Container = styled('div', {
+    '@media(max-width: 1279px)': {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        padding: '1rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 
-    margin: '6rem',
-
-    paddingLeft: '232px',
-
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    '@media(min-width: 1280px)': {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '2rem',
+        marginLeft: '9rem',
+        padding: '1rem',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
 })
 
 export const Feed = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-
-    overflow: 'auto',
-
-    '> span': {
-        marginTop: '$10',
-    },
-
-    // '&::-webkit-scrollbar': {
-    //     width: '0',
-    //     height: '0',
-    // },
+    maxWidth: '38rem',
+    minWidth: '20rem',
+    marginTop: '2.5rem',
 })
 
 export const PageTitle = styled('div', {
@@ -36,6 +35,8 @@ export const PageTitle = styled('div', {
     flexDirection: 'row',
     alignItems: 'center',
     gap: '$3',
+
+    marginBottom: '4rem',
 
     svg: {
         color: '$green100',
@@ -105,9 +106,20 @@ export const BookInfo = styled('div', {
     div: { marginTop: '$6' },
 })
 
-export const PopularBooks = styled('div', {
+export const PopularBooks = styled('aside', {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+
+    '@media(max-width: 1279px)': {
+        width: '25rem',
+        marginTop: '2rem',
+    },
+
+    '@media(min-width: 1280px)': {
+        maxWidth: '20rem',
+        marginTop: '8.5rem',
+    },
 })
 
 export const TitleContainer = styled('div', {
@@ -115,7 +127,7 @@ export const TitleContainer = styled('div', {
     flexDirection: 'row',
     justifyContent: 'space-between',
 
-    marginTop: '4.5rem',
+    width: '100%',
 
     button: {
         all: 'unset',
@@ -128,15 +140,36 @@ export const TitleContainer = styled('div', {
     },
 })
 
+export const BooksContainer = styled('div', {
+    marginTop: '1rem',
+    '@media(max-width: 1279px)': {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '0.5rem',
+    },
+
+    '@media(min-width: 1280px)': {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+    },
+})
+
 export const Book = styled('button', {
     all: 'unset',
     display: 'flex',
     flexDirection: 'row',
-    gap: '$4',
 
-    padding: '$5',
-    // height: '8rem',
-    marginTop: '$4',
+    '@media(max-width: 1279px)': {
+        width: '45%',
+        padding: '$2',
+        gap: '$1',
+    },
+
+    '@media(min-width: 1280px)': {
+        padding: '$5',
+        gap: '$4',
+    },
 
     borderRadius: '8px',
     backgroundColor: '$gray700',

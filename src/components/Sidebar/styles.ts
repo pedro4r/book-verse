@@ -2,10 +2,23 @@ import { styled } from '../../styles'
 import sidebarBackground from '../../../public/bg.png'
 
 export const Container = styled('aside', {
+    variants: {
+        showContainer: {
+            false: {
+                '@media(max-width: 1279px)': {
+                    visibility: 'hidden',
+                },
+            },
+            true: {
+                visibility: 'visible',
+            },
+        },
+    },
+
+    display: 'flex',
     position: 'fixed',
     top: 0,
     left: 0,
-    display: 'flex',
     flexDirection: 'column',
 
     height: 'calc(100vh - 2.5rem)',
@@ -16,7 +29,7 @@ export const Container = styled('aside', {
 
     paddingTop: '$10',
     paddingBottom: '$6',
-    margin: '$5',
+    margin: '$4',
     borderRadius: '12px',
 
     background: `url(${sidebarBackground.src})`,

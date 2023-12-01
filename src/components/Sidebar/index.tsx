@@ -14,7 +14,8 @@ export function Sidebar() {
     const session = useSession()
     const router = useRouter()
 
-    const { changeSignInBoxOpenStatus } = useContext(BookVerseContext)
+    const { changeSignInBoxOpenStatus, isMenuOpen } =
+        useContext(BookVerseContext)
 
     let userName = session.data?.user?.name
     if (userName && userName.length > 6) {
@@ -46,7 +47,7 @@ export function Sidebar() {
     }
 
     return (
-        <Container>
+        <Container showContainer={isMenuOpen}>
             <Image src={logo} alt='Book verse logo' />
             <MenuOptions>
                 <MenuButton

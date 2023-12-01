@@ -12,6 +12,8 @@ interface BookVerseContextType {
     changeBookProfileState: (obj: BookProfileModal) => void
     isSignInBoxOpen: boolean
     changeSignInBoxOpenStatus: (status: boolean) => void
+    isMenuOpen: boolean
+    toggleMenuStatus: () => void
 }
 
 interface BookVerseContextProviderProps {
@@ -28,6 +30,8 @@ export function BookVerseContextProvider({
         id: '',
         imagUrl: '',
     })
+    const [isSignInBoxOpen, setIsSignInBoxOpen] = useState<boolean>(false)
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
     function changeBookProfileState({
         openStatus,
@@ -42,10 +46,12 @@ export function BookVerseContextProvider({
         }))
     }
 
-    const [isSignInBoxOpen, setIsSignInBoxOpen] = useState<boolean>(false)
-
     function changeSignInBoxOpenStatus(status: boolean) {
         setIsSignInBoxOpen(status)
+    }
+
+    function toggleMenuStatus() {
+        setIsMenuOpen(!isMenuOpen)
     }
 
     return (
@@ -55,6 +61,8 @@ export function BookVerseContextProvider({
                 changeBookProfileState,
                 isSignInBoxOpen,
                 changeSignInBoxOpenStatus,
+                isMenuOpen,
+                toggleMenuStatus,
             }}
         >
             {children}
