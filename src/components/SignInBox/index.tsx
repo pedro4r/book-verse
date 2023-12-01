@@ -16,6 +16,13 @@ export function SignInBox() {
         await signIn('google')
     }
 
+    async function handleConnectGithub() {
+        if (session.status !== 'unauthenticated') {
+            await signOut()
+        }
+        await signIn('github', { callbackUrl: '/home' })
+    }
+
     const { isSignInBoxOpen, changeSignInBoxOpenStatus } =
         useContext(BookVerseContext)
 
@@ -27,11 +34,19 @@ export function SignInBox() {
                 </CloseButton>
                 <LoginContainer>
                     <strong>Sign in to review this book</strong>
-                    <button onClick={handleConnectGoogle}>
+                    <button
+                        onClick={() => {
+                            handleConnectGoogle()
+                        }}
+                    >
                         <Image src={googleIcon} priority alt='' />
                         <strong>Sign up with Google</strong>
                     </button>
-                    <button>
+                    <button
+                        onClick={() => {
+                            handleConnectGithub()
+                        }}
+                    >
                         <Image src={githubIcon} alt='' />
                         <strong>Sign up with Github</strong>
                     </button>
