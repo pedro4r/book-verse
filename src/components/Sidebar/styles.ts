@@ -1,12 +1,31 @@
-import { styled } from '../../styles'
+import { keyframes, styled } from '../../styles'
 import sidebarBackground from '../../../public/bg.png'
 
 export const Container = styled('aside', {
+    position: 'absolute',
+
+    '@media(max-width: 1279px)': {
+        width: '100%',
+        height: '100%',
+        alignSelf: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        marginTop: '-20rem',
+    },
+
+    zIndex: 100,
+    overflowX: 'hidden',
+    overflowY: 'hidden',
+
+    transition: 'opacity 0.5s ease-in -out, visibility 0.5s ease -in -out',
+
     variants: {
         showContainer: {
             false: {
                 '@media(max-width: 1279px)': {
                     visibility: 'hidden',
+                },
+                '@media(min-width: 1280px)': {
+                    visibility: 'visible',
                 },
             },
             true: {
@@ -14,12 +33,16 @@ export const Container = styled('aside', {
             },
         },
     },
+})
 
-    display: 'flex',
+export const Menu = styled('div', {
     position: 'fixed',
-    top: 0,
-    left: 0,
+    display: 'flex',
     flexDirection: 'column',
+
+    top: 0,
+
+    zIndex: 899,
 
     height: 'calc(100vh - 2.5rem)',
     width: '232px',
@@ -36,6 +59,28 @@ export const Container = styled('aside', {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundBlendMode: 'multiply',
+
+    transition: '0.5s',
+
+    variants: {
+        showContainer: {
+            true: {
+                left: 0,
+            },
+            false: {
+                left: -300,
+                '@media(max-width: 1279px)': {
+                    left: -300,
+                },
+                '@media(min-width: 1280px)': {
+                    left: 0,
+                },
+            },
+        },
+    },
+    defaultVariants: {
+        showContainer: false,
+    },
 })
 
 export const MenuOptions = styled('div', {

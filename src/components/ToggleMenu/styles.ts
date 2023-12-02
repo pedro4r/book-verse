@@ -1,7 +1,12 @@
-import { styled } from '../../styles'
+import { styled, keyframes } from '@stitches/react'
 
 export const Container = styled('button', {
     all: 'unset',
+    position: 'fixed',
+    top: 0,
+
+    margin: '$5',
+
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -9,6 +14,8 @@ export const Container = styled('button', {
     border: '1px solid $purple100',
     borderRadius: '$full',
     padding: '$3',
+
+    zIndex: 999,
 
     svg: {
         color: '$gray100',
@@ -21,11 +28,16 @@ export const Container = styled('button', {
     variants: {
         isMenuOpen: {
             true: {
-                alignSelf: 'flex-end',
+                left: 280,
+                transition: 'left 0.5s',
             },
             false: {
-                alignSelf: 'flex-start',
+                left: 0,
+                transition: 'left 0.5s',
             },
         },
+    },
+    defaultVariants: {
+        isMenuOpen: false,
     },
 })

@@ -24,6 +24,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { ParagraphControlled } from '../../components/ParagraphWithLengthControl'
 import { BookImage } from '../../components/BookImage'
 import { ToggleMenu } from '../../components/ToggleMenu'
+import { Sidebar } from '../../components/Sidebar'
 
 interface ReviewListInterface {
     id: string
@@ -78,6 +79,7 @@ export default function Home() {
 
     return (
         <Container>
+            <Sidebar />
             <ToggleMenu />
             <Feed>
                 <PageTitle>

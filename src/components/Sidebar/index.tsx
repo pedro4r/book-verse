@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Container, LoginButton, MenuButton, MenuOptions } from './styles'
+import { Container, LoginButton, Menu, MenuButton, MenuOptions } from './styles'
 import logo from '../../../public/logo.svg'
 import iconBar from '../../../public/menu-icon-bar.svg'
 
@@ -48,57 +48,59 @@ export function Sidebar() {
 
     return (
         <Container showContainer={isMenuOpen}>
-            <Image src={logo} alt='Book verse logo' />
-            <MenuOptions>
-                <MenuButton
-                    onClick={handleHome}
-                    selector={router.asPath === '/home'}
-                >
-                    <Image src={iconBar} alt='' />
-                    <ChartLineUp size={24} />
-                    Home
-                </MenuButton>
-
-                <MenuButton
-                    onClick={handleExplore}
-                    selector={router.asPath === '/explore'}
-                >
-                    <Image src={iconBar} alt='' />
-                    <Binoculars size={24} />
-                    Explore
-                </MenuButton>
-
-                {isSignedIn ? (
+            <Menu showContainer={isMenuOpen}>
+                <Image src={logo} alt='Book verse logo' />
+                <MenuOptions>
                     <MenuButton
-                        onClick={handleProfile}
-                        selector={router.asPath === '/profile'}
+                        onClick={handleHome}
+                        selector={router.asPath === '/home'}
                     >
                         <Image src={iconBar} alt='' />
-                        <User size={24} />
-                        Profile
+                        <ChartLineUp size={24} />
+                        Home
                     </MenuButton>
+
+                    <MenuButton
+                        onClick={handleExplore}
+                        selector={router.asPath === '/explore'}
+                    >
+                        <Image src={iconBar} alt='' />
+                        <Binoculars size={24} />
+                        Explore
+                    </MenuButton>
+
+                    {isSignedIn ? (
+                        <MenuButton
+                            onClick={handleProfile}
+                            selector={router.asPath === '/profile'}
+                        >
+                            <Image src={iconBar} alt='' />
+                            <User size={24} />
+                            Profile
+                        </MenuButton>
+                    ) : (
+                        <></>
+                    )}
+                </MenuOptions>
+                {isSignedIn ? (
+                    <LoginButton onClick={() => handleSignOut()} color='red'>
+                        <Avatar
+                            avatarUrl={session.data.user.avatar_url}
+                            avatarSize={'sm'}
+                        />
+                        <span>{userName}</span>
+                        <SignOut size={24} />
+                    </LoginButton>
                 ) : (
-                    <></>
+                    <LoginButton
+                        color='green'
+                        onClick={() => changeSignInBoxOpenStatus(true)}
+                    >
+                        Sign In
+                        <SignOut size={24} />
+                    </LoginButton>
                 )}
-            </MenuOptions>
-            {isSignedIn ? (
-                <LoginButton onClick={() => handleSignOut()} color='red'>
-                    <Avatar
-                        avatarUrl={session.data.user.avatar_url}
-                        avatarSize={'sm'}
-                    />
-                    <span>{userName}</span>
-                    <SignOut size={24} />
-                </LoginButton>
-            ) : (
-                <LoginButton
-                    color='green'
-                    onClick={() => changeSignInBoxOpenStatus(true)}
-                >
-                    Sign In
-                    <SignOut size={24} />
-                </LoginButton>
-            )}
+            </Menu>
         </Container>
     )
 }

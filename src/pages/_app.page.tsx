@@ -31,7 +31,6 @@ export default function App({
         <QueryClientProvider client={queryClient}>
             <SessionProvider session={session}>
                 <BookVerseContextProvider>
-                    <Sidebar />
                     <SignInBox />
                     <Component {...pageProps} />
                 </BookVerseContextProvider>

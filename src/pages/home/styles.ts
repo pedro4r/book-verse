@@ -1,6 +1,7 @@
 import { styled } from '../../styles'
 
 export const Container = styled('div', {
+    position: 'relative',
     '@media(max-width: 1279px)': {
         display: 'flex',
         flexDirection: 'column',
@@ -8,6 +9,7 @@ export const Container = styled('div', {
         padding: '1rem',
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: '4rem',
     },
 
     '@media(min-width: 1280px)': {
