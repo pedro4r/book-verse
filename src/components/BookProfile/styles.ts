@@ -1,13 +1,11 @@
 import { styled } from '../../styles'
 
 export const BookContainer = styled('div', {
-    position: 'absolute',
+    position: 'fixed',
     display: 'flex',
     flexDirection: 'column',
     gap: '$4',
 
-    width: '41.25rem',
-    height: '100%',
     top: 0,
     right: 0,
 
@@ -22,10 +20,12 @@ export const BookContainer = styled('div', {
 
     '@media(max-width: 1279px)': {
         width: '100%',
+        height: '100%',
     },
 
     '@media(min-width: 1280px)': {
         width: '41.25rem',
+        height: '100%',
     },
 
     variants: {
@@ -180,7 +180,6 @@ export const NewReviewButton = styled('button', {
 export const NewReview = styled('form', {
     display: 'flex',
     flexDirection: 'column',
-
     marginTop: '$4',
 
     padding: '$6',
@@ -202,9 +201,16 @@ export const NewReview = styled('form', {
 
 export const NewReviewHeader = styled('div', {
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+
+    '@media(max-width: 1279px)': {
+        flexDirection: 'column',
+    },
+
+    '@media(min-width: 1280px)': {
+        flexDirection: 'row',
+    },
 
     gap: '$4',
 
@@ -348,12 +354,12 @@ export const Mask = styled('div', {
     variants: {
         open: {
             true: {
-                position: 'absolute',
-                height: '100vh',
+                position: 'fixed',
+                height: '100%',
+                width: '100%',
+                margin: 0,
                 top: 0,
                 left: 0,
-                right: 0,
-                bottom: 0,
                 zIndex: 1,
                 backgroundColor: '$blackTransparent',
             },
