@@ -247,9 +247,6 @@ export default function Explore() {
                     />
                 </ExploreContainer>
                 <FilterAnswer>{filteredBooks}</FilterAnswer>
-                <FilterAnswer>{filteredBooks}</FilterAnswer>
-                <FilterAnswer>{filteredBooks}</FilterAnswer>
-                <FilterAnswer>{filteredBooks}</FilterAnswer>
             </Container>
         </>
     )
