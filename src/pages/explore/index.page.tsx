@@ -25,6 +25,7 @@ import { z } from 'zod'
 import { api } from '../../lib/axios'
 import { v4 as uuidv4 } from 'uuid'
 import { BookImage } from '../../components/BookImage'
+import { ToggleMenu } from '../../components/ToggleMenu'
 
 interface BookProps {
     id: string
@@ -160,6 +161,7 @@ export default function Explore() {
 
             <Container>
                 <Sidebar />
+                <ToggleMenu />
                 <ExploreContainer
                     onSubmit={handleSubmit((data) => handleSearchBooks(data))}
                 >

@@ -20,6 +20,14 @@ export const BookContainer = styled('div', {
 
     overflowY: 'scroll',
 
+    '@media(max-width: 1279px)': {
+        width: '100%',
+    },
+
+    '@media(min-width: 1280px)': {
+        width: '41.25rem',
+    },
+
     variants: {
         open: {
             true: {
