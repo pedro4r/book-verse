@@ -14,7 +14,7 @@ export const BookContainer = styled('div', {
     backgroundColor: '$gray800',
     backgroundOpacity: '0.3',
 
-    zIndex: 2,
+    zIndex: 999,
 
     overflowY: 'scroll',
 
@@ -360,7 +360,7 @@ export const Mask = styled('div', {
                 margin: 0,
                 top: 0,
                 left: 0,
-                zIndex: 1,
+                zIndex: 899,
                 backgroundColor: '$blackTransparent',
             },
             false: {

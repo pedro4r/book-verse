@@ -37,3 +37,11 @@ export const globalStyles = globalCss({
         fontWeight: 400,
     },
 })
+
+export const disableBodyScroll = () => {
+    document.body.style.overflow = 'hidden'
+}
+
+export const enableBodyScroll = () => {
+    document.body.style.overflow = 'visible'
+}

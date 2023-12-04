@@ -2,37 +2,38 @@ import { keyframes, styled } from '../../styles'
 import sidebarBackground from '../../../public/bg.png'
 
 export const Container = styled('aside', {
-    position: 'absolute',
+    position: 'fixed',
 
     '@media(max-width: 1279px)': {
-        width: '100%',
+        width: 'auto',
         height: '100%',
         alignSelf: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        marginTop: '-20rem',
+        top: 0,
+        left: 0,
     },
 
     zIndex: 100,
     overflowX: 'hidden',
     overflowY: 'hidden',
 
-    transition: 'opacity 0.5s ease-in -out, visibility 0.5s ease -in -out',
-
-    variants: {
-        showContainer: {
-            false: {
-                '@media(max-width: 1279px)': {
-                    visibility: 'hidden',
-                },
-                '@media(min-width: 1280px)': {
-                    visibility: 'visible',
-                },
-            },
-            true: {
-                visibility: 'visible',
-            },
-        },
-    },
+    // variants: {
+    //     showContainer: {
+    //         true: {
+    //             display: 'block',
+    //         },
+    //         false: {
+    //             '@media(max-width: 1279px)': {
+    //                 display: 'none',
+    //             },
+    //             '@media(min-width: 1280px)': {
+    //                 left: 0,
+    //             },
+    //         },
+    //     },
+    // },
+    // defaultVariants: {
+    //     showContainer: false,
+    // },
 })
 
 export const Menu = styled('div', {
@@ -139,6 +140,33 @@ export const LoginButton = styled(BaseButton, {
             },
             red: {
                 svg: { color: '$red' },
+            },
+        },
+    },
+})
+
+export const Mask = styled('div', {
+    variants: {
+        showContainer: {
+            true: {
+                '@media(max-width: 1279px)': {
+                    display: 'block',
+                },
+                '@media(min-width: 1280px)': {
+                    display: 'none',
+                },
+
+                position: 'fixed',
+                height: '100%',
+                width: '100%',
+                margin: 0,
+                top: 0,
+                left: 0,
+                zIndex: 50,
+                backgroundColor: '$blackTransparent',
+            },
+            false: {
+                display: 'none',
             },
         },
     },

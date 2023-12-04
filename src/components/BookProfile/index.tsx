@@ -290,7 +290,7 @@ export function BookProfile() {
                     })}
                 </ReviewContainer>
             </BookContainer>
-            <Mask open={bookProfileState.openStatus}></Mask>
+            <Mask open={bookProfileState.openStatus} />
         </>
     )
 }

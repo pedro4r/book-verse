@@ -1,10 +1,19 @@
 import { List, X } from 'phosphor-react'
 import { Container } from './styles'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { BookVerseContext } from '../../context/BookVerseContext'
+import { disableBodyScroll, enableBodyScroll } from '../../styles/global'
 
 export function ToggleMenu() {
     const { isMenuOpen, toggleMenuStatus } = useContext(BookVerseContext)
+
+    useEffect(() => {
+        if (isMenuOpen) {
+            disableBodyScroll()
+        } else {
+            enableBodyScroll()
+        }
+    }, [isMenuOpen])
     return (
         <Container
             isMenuOpen={isMenuOpen}

@@ -9,7 +9,7 @@ export const Container = styled('main', {
     justifyContent: 'center',
 
     '@media(max-width: 1279px)': {
-        marginTop: '6rem',
+        marginTop: '2rem',
         padding: '1rem',
         alignItems: 'center',
     },
