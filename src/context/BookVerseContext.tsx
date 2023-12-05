@@ -8,7 +8,6 @@ interface BookProfileModal {
 
 interface BookVerseContextType {
     bookProfileState: BookProfileModal
-
     changeBookProfileState: (obj: BookProfileModal) => void
     isSignInBoxOpen: boolean
     changeSignInBoxOpenStatus: (status: boolean) => void

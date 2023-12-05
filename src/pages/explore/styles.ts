@@ -4,9 +4,7 @@ import * as RadioGroup from '@radix-ui/react-radio-group'
 export const Container = styled('main', {
     display: 'flex',
     flexDirection: 'column',
-    gap: '4rem',
-
-    justifyContent: 'center',
+    alignItems: 'center',
 
     '@media(max-width: 1279px)': {
         marginTop: '2rem',
@@ -15,8 +13,16 @@ export const Container = styled('main', {
     },
 
     '@media(min-width: 1280px)': {
-        margin: '4.5rem 6rem 3rem 20.5rem ',
+        margin: '3rem 3rem 3rem 21.8rem ',
     },
+})
+
+export const PageContent = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    gap: '4rem',
+    marginTop: '$10',
 })
 
 export const ExploreContainer = styled('form', {
@@ -24,14 +30,13 @@ export const ExploreContainer = styled('form', {
     flexDirection: 'column',
     justifyContent: 'flex-start',
 
-    width: '100%',
-
     '> span': {
         marginTop: '$10',
     },
 
     '@media(min-width: 1280px)': {
         overflow: 'auto',
+        maxWidth: '47.8rem',
     },
 })
 
@@ -71,11 +76,13 @@ export const FormContainer = styled('div', {
 
     '@media(max-width: 1279px)': {
         flex: 1,
+        maxWidth: '30rem',
         alignSelf: 'flex-end',
     },
 
     '@media(min-width: 1280px)': {
-        width: '27rem',
+        flex: 1,
+        maxWidth: '30rem',
     },
 
     input: {
@@ -156,6 +163,7 @@ export const FilterAnswer = styled('div', {
         display: 'flex',
         flexWrap: 'wrap',
         gap: '$5',
+        maxWidth: '63rem',
     },
 })
 

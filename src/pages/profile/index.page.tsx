@@ -23,7 +23,6 @@ import {
     UserInfoContainer,
 } from './styles'
 import Image from 'next/image'
-import hobbit from '../../../public/hobbit.png'
 import { Avatar } from '../../components/Avatar'
 import { useSession } from 'next-auth/react'
 import horizontalBar from '../../../public/horizontal-icon-bar.svg'
@@ -36,6 +35,8 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { BookImage } from '../../components/BookImage'
+import { ToggleMenu } from '../../components/ToggleMenu'
+import { useWindowSize } from '../../utils/useWindowSize'
 
 interface UserProfileInterface {
     created_at: Date
@@ -138,93 +139,201 @@ export default function Profile() {
         }
     }
 
+    const windowSize = useWindowSize()
+    const widthSize = windowSize.width
+
     return (
         <Container>
             <Sidebar />
-            <Reviews>
-                <PageTitle>
-                    <User size={32} />
-                    <h2>Profile</h2>
-                </PageTitle>
-                <FormContainer
-                    onSubmit={handleSubmit((data) =>
-                        handleFilterActivity(data)
-                    )}
-                >
-                    <input
-                        type='text'
-                        placeholder='Search Content'
-                        {...register('textInput')}
-                    />
-                    <MagnifyingGlass size={20} />
-                </FormContainer>
+            <ToggleMenu />
 
-                {userActivity.map((review) => {
-                    dayjs.extend(relativeTime)
-                    const createdAt = dayjs(review.created_at).fromNow()
-                    return (
-                        <ReviewContainer key={review.id}>
-                            <span>{createdAt}</span>
-                            <ReviewBody>
-                                <Header>
-                                    <BookImage
-                                        height={134}
-                                        width={98}
-                                        imgUrl={review.cover_url}
-                                    />
-                                    <TitleInfo>
-                                        <strong>{review.name}</strong>
-                                        <span>{review.author}</span>
-                                        <StarRater rate={review.rating} />
-                                    </TitleInfo>
-                                </Header>
-                                <p>{review.comment}</p>
-                            </ReviewBody>
-                        </ReviewContainer>
-                    )
-                })}
-            </Reviews>
-            <UserInfoContainer>
-                <ProfileInfo>
-                    <Avatar
-                        avatarUrl={session.data?.user.avatar_url}
-                        avatarSize={'md'}
-                    />
-                    <strong>{session?.data?.user.name}</strong>
-                    <span>member since {yearJoined}</span>
-                </ProfileInfo>
-                <Image src={horizontalBar} alt='' />
-                <StatsContainer>
-                    <ReadingStats>
-                        <BookOpen size={32} />
-                        <Stats>
-                            <strong>{userInfo.totalPagesRead}</strong>
-                            <span>Pages Read</span>
-                        </Stats>
-                    </ReadingStats>
-                    <ReadingStats>
-                        <Books size={32} />
-                        <Stats>
-                            <strong>{userInfo.numberOfBooksRead}</strong>
-                            <span>Reviewed Books</span>
-                        </Stats>
-                    </ReadingStats>
-                    <ReadingStats>
-                        <UserList size={32} />
-                        <Stats>
-                            <strong>{userInfo.totalOfAuthorsRead}</strong>
-                            <span>Authors Read</span>
-                        </Stats>
-                    </ReadingStats>
-                    <ReadingStats>
-                        <BookmarkSimple size={32} />
-                        <Stats>
-                            <strong>{userInfo.mostCategoryRead}</strong>
-                            <span>Most Read Category</span>
-                        </Stats>
-                    </ReadingStats>
-                </StatsContainer>
-            </UserInfoContainer>
+            {widthSize && widthSize >= 1280 ? (
+                <>
+                    <Reviews>
+                        <PageTitle>
+                            <User size={32} />
+                            <h2>Profile</h2>
+                        </PageTitle>
+                        <FormContainer
+                            onSubmit={handleSubmit((data) =>
+                                handleFilterActivity(data)
+                            )}
+                        >
+                            <input
+                                type='text'
+                                placeholder='Search Content'
+                                {...register('textInput')}
+                            />
+                            <MagnifyingGlass size={20} />
+                        </FormContainer>
+
+                        {userActivity.map((review) => {
+                            dayjs.extend(relativeTime)
+                            const createdAt = dayjs(review.created_at).fromNow()
+                            return (
+                                <ReviewContainer key={review.id}>
+                                    <span>{createdAt}</span>
+                                    <ReviewBody>
+                                        <Header>
+                                            <BookImage
+                                                height={134}
+                                                width={98}
+                                                imgUrl={review.cover_url}
+                                            />
+                                            <TitleInfo>
+                                                <strong>{review.name}</strong>
+                                                <span>{review.author}</span>
+                                                <StarRater
+                                                    rate={review.rating}
+                                                />
+                                            </TitleInfo>
+                                        </Header>
+                                        <p>{review.comment}</p>
+                                    </ReviewBody>
+                                </ReviewContainer>
+                            )
+                        })}
+                    </Reviews>
+                    <UserInfoContainer>
+                        <ProfileInfo>
+                            <Avatar
+                                avatarUrl={session.data?.user.avatar_url}
+                                avatarSize={'md'}
+                            />
+                            <strong>{session?.data?.user.name}</strong>
+                            <span>member since {yearJoined}</span>
+                        </ProfileInfo>
+                        <Image src={horizontalBar} alt='' />
+                        <StatsContainer>
+                            <ReadingStats>
+                                <BookOpen size={32} />
+                                <Stats>
+                                    <strong>{userInfo.totalPagesRead}</strong>
+                                    <span>Pages Read</span>
+                                </Stats>
+                            </ReadingStats>
+                            <ReadingStats>
+                                <Books size={32} />
+                                <Stats>
+                                    <strong>
+                                        {userInfo.numberOfBooksRead}
+                                    </strong>
+                                    <span>Reviewed Books</span>
+                                </Stats>
+                            </ReadingStats>
+                            <ReadingStats>
+                                <UserList size={32} />
+                                <Stats>
+                                    <strong>
+                                        {userInfo.totalOfAuthorsRead}
+                                    </strong>
+                                    <span>Authors Read</span>
+                                </Stats>
+                            </ReadingStats>
+                            <ReadingStats>
+                                <BookmarkSimple size={32} />
+                                <Stats>
+                                    <strong>{userInfo.mostCategoryRead}</strong>
+                                    <span>Most Read Category</span>
+                                </Stats>
+                            </ReadingStats>
+                        </StatsContainer>
+                    </UserInfoContainer>
+                </>
+            ) : (
+                <>
+                    <UserInfoContainer>
+                        <ProfileInfo>
+                            <Avatar
+                                avatarUrl={session.data?.user.avatar_url}
+                                avatarSize={'md'}
+                            />
+                            <strong>{session?.data?.user.name}</strong>
+                            <span>member since {yearJoined}</span>
+                        </ProfileInfo>
+                        <Image src={horizontalBar} alt='' />
+                        <StatsContainer>
+                            <ReadingStats>
+                                <BookOpen size={32} />
+                                <Stats>
+                                    <strong>{userInfo.totalPagesRead}</strong>
+                                    <span>Pages Read</span>
+                                </Stats>
+                            </ReadingStats>
+                            <ReadingStats>
+                                <Books size={32} />
+                                <Stats>
+                                    <strong>
+                                        {userInfo.numberOfBooksRead}
+                                    </strong>
+                                    <span>Reviewed Books</span>
+                                </Stats>
+                            </ReadingStats>
+                            <ReadingStats>
+                                <UserList size={32} />
+                                <Stats>
+                                    <strong>
+                                        {userInfo.totalOfAuthorsRead}
+                                    </strong>
+                                    <span>Authors Read</span>
+                                </Stats>
+                            </ReadingStats>
+                            <ReadingStats>
+                                <BookmarkSimple size={32} />
+                                <Stats>
+                                    <strong>{userInfo.mostCategoryRead}</strong>
+                                    <span>Most Read Category</span>
+                                </Stats>
+                            </ReadingStats>
+                        </StatsContainer>
+                    </UserInfoContainer>
+                    <Reviews>
+                        <PageTitle>
+                            <User size={32} />
+                            <h2>Profile</h2>
+                        </PageTitle>
+                        <FormContainer
+                            onSubmit={handleSubmit((data) =>
+                                handleFilterActivity(data)
+                            )}
+                        >
+                            <input
+                                type='text'
+                                placeholder='Search Content'
+                                {...register('textInput')}
+                            />
+                            <MagnifyingGlass size={20} />
+                        </FormContainer>
+
+                        {userActivity.map((review) => {
+                            dayjs.extend(relativeTime)
+                            const createdAt = dayjs(review.created_at).fromNow()
+                            return (
+                                <ReviewContainer key={review.id}>
+                                    <span>{createdAt}</span>
+                                    <ReviewBody>
+                                        <Header>
+                                            <BookImage
+                                                height={134}
+                                                width={98}
+                                                imgUrl={review.cover_url}
+                                            />
+                                            <TitleInfo>
+                                                <strong>{review.name}</strong>
+                                                <span>{review.author}</span>
+                                                <StarRater
+                                                    rate={review.rating}
+                                                />
+                                            </TitleInfo>
+                                        </Header>
+                                        <p>{review.comment}</p>
+                                    </ReviewBody>
+                                </ReviewContainer>
+                            )
+                        })}
+                    </Reviews>
+                </>
+            )}
         </Container>
     )
 }

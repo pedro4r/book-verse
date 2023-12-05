@@ -1,4 +1,4 @@
-import { keyframes, styled } from '../../styles'
+import { styled } from '../../styles'
 import sidebarBackground from '../../../public/bg.png'
 
 export const Container = styled('aside', {

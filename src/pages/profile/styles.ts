@@ -1,16 +1,27 @@
 import { styled } from '../../styles'
 
 export const Container = styled('main', {
-    display: 'grid',
-    gridTemplateColumns: '6fr 3fr',
-    gap: '4rem',
-    height: '100vh',
+    position: 'relative',
+    '@media(max-width: 1279px)': {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        padding: '1rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '2rem',
+    },
 
-    margin: '6rem',
-    paddingLeft: '232px',
-
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    '@media(min-width: 1280px)': {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '2rem',
+        marginLeft: '9rem',
+        marginTop: '2.5rem',
+        padding: '1rem',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
 })
 
 export const PageTitle = styled('div', {
@@ -67,8 +78,7 @@ export const Reviews = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-
-    overflow: 'auto',
+    maxWidth: '39rem',
 
     '> span': {
         marginTop: '$10',
@@ -133,11 +143,21 @@ export const UserInfoContainer = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: '$8',
 
-    marginTop: '4.4rem',
+    padding: '0 $10 0 $10',
 
-    borderLeft: '1px solid $gray700',
+    maxWidth: '19.25rem',
+
+    '@media(max-width: 1279px)': {
+        marginTop: '1rem',
+    },
+
+    '@media(min-width: 1280px)': {
+        marginTop: '4.4rem',
+        borderLeft: '1px solid $gray700',
+    },
 })
 
 export const ProfileInfo = styled('div', {

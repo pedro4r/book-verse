@@ -14,6 +14,7 @@ import {
     RadioGroupRoot,
     ReadLabel,
     RadioGroupIndicator,
+    PageContent,
 } from './styles'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { StarRater } from '../../components/StarRater'
@@ -162,91 +163,107 @@ export default function Explore() {
             <Container>
                 <Sidebar />
                 <ToggleMenu />
-                <ExploreContainer
-                    onSubmit={handleSubmit((data) => handleSearchBooks(data))}
-                >
-                    <PageTitle>
-                        <Binoculars size={32} />
-                        <h2>Explore</h2>
-                        <FormContainer>
-                            <input
-                                type='text'
-                                placeholder='Search Content'
-                                {...register('textInput')}
-                            />
-                            <MagnifyingGlass size={20} />
-                        </FormContainer>
-                    </PageTitle>
-                    <Controller
-                        name='category'
-                        control={control}
-                        render={({ field: { onChange } }) => {
-                            return (
-                                <RadioGroupRoot
-                                    defaultValue='all'
-                                    required={true}
-                                    aria-label='category'
-                                    onValueChange={(value) => {
-                                        onChange(value)
-                                        handleSearchBooks()
-                                    }}
-                                >
-                                    <RadioGroupItem value='all' id='all'>
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='all'>All</Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem
-                                        value='computer'
-                                        id='computer'
+                <PageContent>
+                    <ExploreContainer
+                        onSubmit={handleSubmit((data) =>
+                            handleSearchBooks(data)
+                        )}
+                    >
+                        <PageTitle>
+                            <Binoculars size={32} />
+                            <h2>Explore</h2>
+                            <FormContainer>
+                                <input
+                                    type='text'
+                                    placeholder='Search Content'
+                                    {...register('textInput')}
+                                />
+                                <MagnifyingGlass size={20} />
+                            </FormContainer>
+                        </PageTitle>
+                        <Controller
+                            name='category'
+                            control={control}
+                            render={({ field: { onChange } }) => {
+                                return (
+                                    <RadioGroupRoot
+                                        defaultValue='all'
+                                        required={true}
+                                        aria-label='category'
+                                        onValueChange={(value) => {
+                                            onChange(value)
+                                            handleSearchBooks()
+                                        }}
                                     >
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='computer'>
-                                            Computer
-                                        </Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem
-                                        value='education'
-                                        id='education'
-                                    >
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='education'>
-                                            Education
-                                        </Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem
-                                        value='fantasy'
-                                        id='fantasy'
-                                    >
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='fantasy'>Fantasy</Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem value='sci-fi' id='scifi'>
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='sci-fi'>Sci-Fi</Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem value='horror' id='horror'>
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='horror'>Horror</Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem value='hqs' id='hqs'>
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='hqs'>HQs</Label>
-                                    </RadioGroupItem>
-                                    <RadioGroupItem
-                                        value='suspense'
-                                        id='suspense'
-                                    >
-                                        <RadioGroupIndicator />
-                                        <Label htmlFor='suspense'>
-                                            Suspense
-                                        </Label>
-                                    </RadioGroupItem>
-                                </RadioGroupRoot>
-                            )
-                        }}
-                    />
-                </ExploreContainer>
-                <FilterAnswer>{filteredBooks}</FilterAnswer>
+                                        <RadioGroupItem value='all' id='all'>
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='all'>All</Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem
+                                            value='computer'
+                                            id='computer'
+                                        >
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='computer'>
+                                                Computer
+                                            </Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem
+                                            value='education'
+                                            id='education'
+                                        >
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='education'>
+                                                Education
+                                            </Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem
+                                            value='fantasy'
+                                            id='fantasy'
+                                        >
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='fantasy'>
+                                                Fantasy
+                                            </Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem
+                                            value='sci-fi'
+                                            id='scifi'
+                                        >
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='sci-fi'>
+                                                Sci-Fi
+                                            </Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem
+                                            value='horror'
+                                            id='horror'
+                                        >
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='horror'>
+                                                Horror
+                                            </Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem value='hqs' id='hqs'>
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='hqs'>HQs</Label>
+                                        </RadioGroupItem>
+                                        <RadioGroupItem
+                                            value='suspense'
+                                            id='suspense'
+                                        >
+                                            <RadioGroupIndicator />
+                                            <Label htmlFor='suspense'>
+                                                Suspense
+                                            </Label>
+                                        </RadioGroupItem>
+                                    </RadioGroupRoot>
+                                )
+                            }}
+                        />
+                    </ExploreContainer>
+                    <FilterAnswer>{filteredBooks}</FilterAnswer>
+                </PageContent>
             </Container>
         </>
     )
