@@ -21,6 +21,8 @@ export const ImageContainer = styled('div', {
     justifyContent: 'center',
     alignItems: 'center',
 
+    borderRadius: '16px',
+
     height: 'calc(100vh - 2.5rem)',
 
     paddingLeft: '1.25rem',
@@ -28,7 +30,7 @@ export const ImageContainer = styled('div', {
     img: {
         width: '100%',
         height: '100%',
-        objectFit: 'cover',
+        objectFit: 'contain',
     },
 
     '@media(max-width: 768px)': {

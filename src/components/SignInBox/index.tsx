@@ -4,9 +4,10 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { X } from 'phosphor-react'
 import googleIcon from '../../../public/logos_google-icon.png'
 import githubIcon from '../../../public/akar-icons_github-fill.png'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { BookVerseContext } from '../../context/BookVerseContext'
 import { useRouter } from 'next/router'
+import { disableBodyScroll, enableBodyScroll } from '../../styles/global'
 
 export function SignInBox() {
     const session = useSession()
@@ -25,6 +26,14 @@ export function SignInBox() {
 
     const { isSignInBoxOpen, changeSignInBoxOpenStatus } =
         useContext(BookVerseContext)
+
+    useEffect(() => {
+        if (isSignInBoxOpen) {
+            disableBodyScroll()
+        } else {
+            enableBodyScroll()
+        }
+    }, [isSignInBoxOpen])
 
     return (
         <>

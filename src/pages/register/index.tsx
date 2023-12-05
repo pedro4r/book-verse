@@ -30,7 +30,13 @@ export default function Register() {
     return (
         <Container>
             <ImageContainer>
-                <Image src={homePageImage} priority alt='Book verse logo' />
+                <Image
+                    src={homePageImage}
+                    width='598'
+                    height='912'
+                    priority
+                    alt='Book verse logo'
+                />
             </ImageContainer>
 
             <LoginContainer>

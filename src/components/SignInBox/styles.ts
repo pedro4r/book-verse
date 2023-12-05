@@ -1,14 +1,14 @@
 import { styled } from '../../styles'
 
 export const Box = styled('div', {
-    position: 'absolute',
+    position: 'fixed',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '$4',
 
-    width: '32.25rem',
+    width: '25rem',
     height: '21.06rem',
     top: '50%',
     right: '50%',
@@ -19,7 +19,9 @@ export const Box = styled('div', {
     backgroundColor: '$gray700',
     backgroundOpacity: '0.3',
 
-    zIndex: 999,
+    borderRadius: '8px',
+
+    zIndex: 1001,
 
     variants: {
         open: {
@@ -71,7 +73,7 @@ export const LoginContainer = styled('div', {
         marginTop: '0.5rem',
         paddingLeft: '1.5rem',
 
-        width: '23.25rem',
+        width: '100%',
         height: '4.5rem',
         backgroundColor: '$gray600',
 
@@ -93,13 +95,13 @@ export const Mask = styled('div', {
     variants: {
         open: {
             true: {
-                position: 'absolute',
+                position: 'fixed',
                 height: '100vh',
                 top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                zIndex: 100,
+                zIndex: 1000,
                 backgroundColor: '$blackTransparent',
             },
             false: {
