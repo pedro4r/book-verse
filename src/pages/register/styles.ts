@@ -12,6 +12,7 @@ export const Container = styled('main', {
     overflow: 'hidden',
 
     '@media(max-width: 768px)': {
+        alignItems: 'flex-start',
         gridTemplateColumns: '1fr',
     },
 })
@@ -20,21 +21,25 @@ export const ImageContainer = styled('div', {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-
     borderRadius: '16px',
 
-    height: 'calc(100vh - 2.5rem)',
-
-    paddingLeft: '1.25rem',
-
-    img: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'contain',
+    '@media(min-width: 769px)': {
+        height: 'calc(100vh - 2.5rem)',
+        paddingLeft: '1.25rem',
+        img: {
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+        },
     },
 
     '@media(max-width: 768px)': {
-        display: 'none',
+        margin: 0,
+        img: {
+            height: '10rem',
+            width: '100%',
+            objectFit: 'cover',
+        },
     },
 })
 
