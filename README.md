@@ -1,5 +1,6 @@
 
 ![Demo Animation](https://raw.githubusercontent.com/pedro4r/jupiter-ui/assets/images/bookverse-01.jpg)
+![Demo Animation](https://raw.githubusercontent.com/pedro4r/jupiter-ui/assets/images/bookverse-02.jpg)
 
 This application was created for readers to share book reviews and seek reading suggestions based on their favorite genre and author. Users can access the application without the need to log in, or if they want to review a book, they can log in via Google or GitHub.
 
