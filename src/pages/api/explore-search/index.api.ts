@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
+import googleBooksApi from '../google-books-api/index.api'
 
 dotenv.config()
 const bucketname = process.env.BUCKET_NAME || 'defaultBucketName'
@@ -24,6 +25,22 @@ const s3 = new S3Client({
 interface BookSearchInterface {
     textInput?: string
     category?: string
+}
+
+interface Book {
+    id: string
+    volumeInfo: {
+        title: string
+        authors: string
+        description: string
+        imageLinks: {
+            thumbnail: string
+        }
+        pageCount: number
+        categories: []
+        ratingAverage: number
+        read: boolean
+    }
 }
 
 export default async function handler(
@@ -128,6 +145,32 @@ export default async function handler(
             }
         })
     )
+
+    if (textInput) {
+        const googleBooksResponse = await googleBooksApi(textInput)
+        console.log(googleBooksResponse.items)
+
+        const googleBooks = googleBooksResponse.items
+            .filter(
+                (item: Book) =>
+                    item.volumeInfo.imageLinks &&
+                    item.volumeInfo.imageLinks.thumbnail
+            )
+            .map((item: Book) => ({
+                id: item.id,
+                name: item.volumeInfo.title,
+                author: item.volumeInfo.authors[0],
+                summary: item.volumeInfo.description,
+                cover_url: item.volumeInfo.imageLinks.thumbnail,
+                total_pages: item.volumeInfo.pageCount,
+                category: item.volumeInfo.categories,
+                ratingAverage: 0,
+                read: false,
+            }))
+
+        const newBooks = [...books, ...googleBooks]
+        return res.json(newBooks)
+    }
 
     return res.json(books)
 }
