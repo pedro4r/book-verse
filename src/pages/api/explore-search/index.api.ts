@@ -1,26 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../lib/prisma'
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
 import dotenv from 'dotenv'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+
 import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
 import googleBooksApi from '../google-books-api/index.api'
 
 dotenv.config()
-const bucketname = process.env.BUCKET_NAME || 'defaultBucketName'
-const accesskey = process.env.ACCESS_KEY || 'defaultAccessKey'
-const secretaccesskey =
-    process.env.SECRET_ACCESS_KEY || 'defaultSecretAccessKey'
-const bucketregion = process.env.BUCKET_REGION || 'defaultBucketRegion'
-
-const s3 = new S3Client({
-    credentials: {
-        accessKeyId: accesskey,
-        secretAccessKey: secretaccesskey,
-    },
-    region: bucketregion,
-})
 
 interface BookSearchInterface {
     textInput?: string
@@ -125,19 +111,14 @@ export default async function handler(
 
             const hasBeenReviewed = !!isBookReviewed
 
-            const params = {
-                Bucket: bucketname,
-                Key: book.id + '.jpg',
-            }
+            const coverUrl = `https://aws-book-verse-bucket.s3.amazonaws.com/${book.id}.jpg`
 
-            const command = new GetObjectCommand(params)
-            const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
             return {
                 id: book.id,
                 name: book.name,
                 author: book.author,
                 summary: book.summary,
-                cover_url: url,
+                cover_url: coverUrl,
                 total_pages: book.total_pages,
                 category: book.category,
                 ratingAverage,
@@ -146,27 +127,27 @@ export default async function handler(
         })
     )
 
-    if (textInput) {
-        const googleBooksResponse = await googleBooksApi(textInput)
-        console.log(googleBooksResponse.items)
-
+    if (textInput && category) {
+        const googleBooksResponse = await googleBooksApi(textInput, category)
         const googleBooks = googleBooksResponse.items
             .filter(
                 (item: Book) =>
                     item.volumeInfo.imageLinks &&
                     item.volumeInfo.imageLinks.thumbnail
             )
-            .map((item: Book) => ({
-                id: item.id,
-                name: item.volumeInfo.title,
-                author: item.volumeInfo.authors[0],
-                summary: item.volumeInfo.description,
-                cover_url: item.volumeInfo.imageLinks.thumbnail,
-                total_pages: item.volumeInfo.pageCount,
-                category: item.volumeInfo.categories,
-                ratingAverage: 0,
-                read: false,
-            }))
+            .map((item: Book) => {
+                return {
+                    id: item.id,
+                    name: item.volumeInfo.title,
+                    author: item.volumeInfo.authors[0],
+                    summary: item.volumeInfo.description,
+                    cover_url: item.volumeInfo.imageLinks.thumbnail,
+                    total_pages: item.volumeInfo.pageCount,
+                    category: item.volumeInfo.categories,
+                    ratingAverage: 0,
+                    read: false,
+                }
+            })
 
         const newBooks = [...books, ...googleBooks]
         return res.json(newBooks)

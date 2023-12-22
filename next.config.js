@@ -7,6 +7,7 @@ const nextConfig = {
             'aws-book-verse-bucket.s3.us-east-1.amazonaws.com',
             'lh3.googleusercontent.com',
             'books.google.com',
+            'aws-book-verse-bucket.s3.amazonaws.com',
         ],
         remotePatterns: [
             {
@@ -24,6 +25,10 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'books.google.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'aws-book-verse-bucket.s3.amazonaws.com/',
             },
         ],
     },
